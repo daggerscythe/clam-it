@@ -3,8 +3,12 @@ extends Area2D
 enum State { EMPTY, GROWING, READY }
 var current_state: State = State.EMPTY
 
-@export var growth_time: float = 6.0 # seconds to grow
+@export var growth_time: float = 10.0 # seconds to grow
 @export var sediment_rate: float = 0.15 # rate at which sediment grows per second
+@export var chum_boost: float = 1.0 # seconds cleared off the timer
+
+var growth_progress: float = 0.0 # tracks accumulated growth seconds 0.0 to growth_time
+var sediment_level: float = 0.0 # 0.0 to 1.0
 
 @onready var clam_sprite: Sprite2D = $ClamSprite
 @onready var pearl_sprite: Sprite2D = $PearlSprite
@@ -16,9 +20,6 @@ var texture_dummy = preload("res://assets/sprites/pearl_dummy.png")
 var texture_mature = preload("res://assets/sprites/mature_pearl.png")
 var texture_sediment = preload("res://assets/sprites/sediment_overlay.png")
 
-var growth_progress: float = 0.0 # tracks accumulated growth seconds 0.0 to growth_time
-var sediment_level: float = 0.0 # 0.0 to 1.0
-var is_srcubbing_tool_active: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -48,17 +49,44 @@ func _process(delta: float) -> void:
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	# Check for left mouse click
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		# Clean clam if sediment present
-		if sediment_level > 0.1:
-			scrub_sediment()
-			return
-			
-		# Else, process regular actions
-		match current_state:
-			State.EMPTY:
-				plant_dummy()
-			State.READY:
-				harvest_pearl()
+		# Match the tool being used
+		match Global.active_tool:
+			Global.Tool.HAND:
+				handle_hand_tool()
+			Global.Tool.BRUSH:
+				handle_brush_tool()
+			Global.Tool.CHUM:
+				handle_chum_tool()
+			Global.Tool.SONAR:
+				print("Sonar used on clam! (No effect)")
+		
+func handle_hand_tool() -> void:
+	match current_state:
+		State.EMPTY:
+			plant_dummy()
+		State.READY:
+			harvest_pearl()
+		State.GROWING:
+			print("Pearl is still growing!")
+
+func handle_brush_tool() -> void:
+	if sediment_level > 0.1:
+		scrub_sediment()
+	else:
+		print("Clam is already clean!")
+
+func handle_chum_tool() -> void:
+	if current_state == State.GROWING:
+		growth_progress += chum_boost
+		growth_progress = clamp(growth_progress, 0.0, growth_time)
+		print("Applied Chum. Growth progress: ", snapped(growth_progress, 0.1), " / ", growth_time, "s")
+		
+		# growth guard
+		if growth_progress >= growth_time:
+			current_state = State.READY
+			update_visuals()
+	else:
+		print("Chum can only be used on growing clams!")
 
 func plant_dummy() -> void:
 	current_state = State.GROWING
@@ -66,6 +94,7 @@ func plant_dummy() -> void:
 	sediment_level = 0.0
 	update_visuals()
 	update_sediment_visuals()
+	print("Planted pearl dummy!")
 
 func harvest_pearl() -> void:
 	current_state = State.EMPTY
