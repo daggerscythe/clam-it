@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://3wich13qn7lu"]
+
+[ext_resource type="Script" uid="uid://bly4fo3h3c648" path="res://scripts/clam.gd" id="1_o84wg"]
+[ext_resource type="Texture2D" uid="uid://bejuxdsw1qb22" path="res://assets/sprites/clam_empty_growing.png" id="2_t4yh2"]
+[ext_resource type="Texture2D" uid="uid://73grkfasgpu7" path="res://assets/sprites/mature_pearl.png" id="3_131hw"]
+[ext_resource type="Texture2D" uid="uid://dkehhplfjbsq5" path="res://assets/sprites/sediment_overlay.png" id="4_t4yh2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2qrml"]
+radius = 60.00833
+
+[node name="Clam" type="Area2D" unique_id=1001873804]
+script = ExtResource("1_o84wg")
+
+[node name="ClamSprite" type="Sprite2D" parent="." unique_id=1669501540]
+texture = ExtResource("2_t4yh2")
+
+[node name="PearlSprite" type="Sprite2D" parent="." unique_id=727153413]
+visible = false
+texture = ExtResource("3_131hw")
+
+[node name="SedimentSprite" type="Sprite2D" parent="." unique_id=1201801413]
+visible = false
+texture = ExtResource("4_t4yh2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=660892550]
+shape = SubResource("CircleShape2D_2qrml")

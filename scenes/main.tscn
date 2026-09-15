@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bn5pd2gbbcofk"]
+
+[ext_resource type="Texture2D" uid="uid://5mlnh81hc4ve" path="res://assets/sprites/underwater_bg.png" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cj7fw4sdx2o7f" path="res://assets/sprites/surface_dock.png" id="2_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://3wich13qn7lu" path="res://scenes/clam.tscn" id="3_tbgi4"]
+
+[node name="Main" type="Node2D" unique_id=2329855]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=734365506]
+position = Vector2(960, 540)
+texture = ExtResource("1_sugp2")
+
+[node name="SurfaceDock" type="Sprite2D" parent="." unique_id=1450409337]
+position = Vector2(960, 100)
+texture = ExtResource("2_jyhfs")
+
+[node name="Clam" parent="." unique_id=1001873804 instance=ExtResource("3_tbgi4")]
+position = Vector2(960, 800)
