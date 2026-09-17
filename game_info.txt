@@ -1,0 +1,73 @@
+Mechanics:
+Planting Pearl Dummies: player clicks an empty clam slot to plant a nucleus/dummy bead, initiating the biological growing process.
+Cleaning Build-up (Scrub Brush): over time, algae and sediment accumulate on active clams, slowing down growth. The player must manually scrub clams using a free brush tool to maintain optimal production speeds.
+Nutrient Chum (Speed Boost): unlocked at Level 2. The player throws chum into a clam bed to temporarily accelerate pearl growth. 
+Crabs (The Threat): unlocked at Level 3. Drawn by the scent/activity of high-speed growth, crabs crawl toward active clams. If a crab reaches an open clam, it pries it open and damages the growing pearl, destroying all current progress and forcing the player to clean the clam and re-grow the pearl from scratch.
+Sonic flares (The Defense): unlocked at Level 3. A limited-use active tool that emits underwater acoustic shockwaves to scare off approaching crabs before they can reach a clam.
+Harvesting & Selling: once a pearl fully matures, the player gently harvests it from the clam and takes it to surface buyers for cash and large XP gains.
+Core gameplay loop
+[Plant Pearl Dummy] →[Clean Build-Up / Apply Chum] → [Scent Spawns Crab] 
+                    |                                                                                                           |
+[Harvest & Sell at Surface] ←  [Matures] ← [Scare Crab with Sonic Flare] 
+Initiate Growth: Plant a dummy bead in an open clam shell.
+Accelerate & Maintain: Scrub off sediment build-up to keep growth running smoothly, or apply Chum to speed up growth.
+Defend: If Chum draws a Crab, deploy a Sonic Flare before it pries open the clam and ruins the pearl.
+Harvest & Cash In: Collect the completed pearl and bring it to the surface to sell, earning cash and XP to level up.
+
+
+Stage 1: Teach the player the mechanics
+Goal: Learn every core mechanic slowly through milestone-based XP leveling, while fulfilling the first order. 
+Level 1: The player starts with 1 clam plot. They plant a pearl dummy, keep it clean from build-up using the Scrub Brush, and harvest their very first pearl.
+Milestone: Harvesting Pearl #1 grants enough XP to reach Level 2.
+Level 2: Reaching Level 2 unlocks Nutrient Chum. The player is prompted to plant a second pearl dummy and apply Chum to see accelerated growth in action.
+Milestone: Through micro-actions (applying chum, scrubbing) and harvesting Pearl #2, the player earns enough XP to reach Level 3.
+Level 3: Reaching Level 3 unlocks Crabs and Sonic Flares. A crab spawns and targets the third growing clam. The player must deploy a Sonic Flare to scare the crab away, protect the pearl, and harvest it.
+Stage 1 Completion: The player brings all 3 harvested pearls to the surface dock and sells them to the untimed first buyer. Selling the batch awards a massive XP boost that pushes the player to Level 4 and unlocks Stage 2.
+Stage 2: apply the learned mechanics
+Goal: force the player to make trade-offs between speed, maintenance, and defense under time or quota pressure
+Setup: apply all learned mechanics simultaneously to maximize profits and continuously level up under dynamic surface buyer demands. 
+Gameplay Loop: The player is given full freedom across multiple clam beds with all tools unlocked. They must balance aggressive growth against threat management while maintaining high production output. 
+Dynamic Pearl Rarities: Pearls now randomly grow into different rarity types when dummies are planted. Higher rarity pearls yield exponentially larger profits when sold at the surface. 
+Level-Based Perks & Upgrades: As the player continues earning XP in Stage 2, reaching higher level milestones unlocks permanent passive and active upgrades:
+New Clam Slots: Increases max simultaneous pearl production capacity.
+Faster Base Growth Times: Reduces the overall time required for pearls to mature.
+Enhanced Sonic Flares: Increases flare blast radius or adds extra ammo capacity.
+Higher Rarity Odds: Increases the chance of spawning high-tier pearls when planting new dummies.
+
+Controls (to be shown as icons instead of mouse cursor later, currently just console output): 
+hand cursor (to plant and harvest clams) - 1 or H
+brush cursor (to clean sediment) - 2 or B
+chum cursor (to speed up pearl growth) - 3 or C
+sonic flare (to fend off crabs) - 4 or F
+
+
+About crabs: Every use of chum will accumulate on the chum scale on the side of the UI (a vertical bar on the side, can be implemented later, use prints for now). Once a certain threshold on that bar is reached (let's say 3/10), then crabs start spawning. The higher the bar is, the higher the rate of spawns. The meter goes down with time, but really slowly. Crabs can spawn from both left and right side, anywhere on the y axis as long as its within the blue water area. Crab targeting logic - it always targets the clam that is closest to finishing its growth. Maximum crabs spawned at a time is 4. If a crab is walking towards a clam, but the player harvests the pearl before the crab gets there, the crab instantly changes direction and walks toward another growing clam. All crabs move at the same speed. When a crab gets to its target shell, it stays to the side of it, and a horizontal red bar appears above the pearl (it replaces the green horizontal bar above the clam that shows growing progress) to indicate the crab is messing with the pearl. After 2 seconds, when the red bar fills up, the pearl disappears and crab walks away off screen in 2x speed. The player has to replant the dummy pearl. If there was any sediment on the clam, it gets cleared with the pearl.
+
+Tunable clam values:
+- growth_time = 10.0s (time to mature from planted dummy to ready pearl)
+- sediment_rate = 0.15 sediment/sec (accumulates only while state == GROWING)
+- chum_boost = 1.0s
+
+Growth / sediment formula actually implemented:
+- Sediment only accumulates while GROWING; it's frozen while EMPTY or READY.
+- growth_speed_multiplier = 1.0 - (sediment_level * 0.9). Growth never fully stops — at max sediment (1.0) it still creeps at 10% normal speed.
+- growth_progress += delta * growth_speed_multiplier, each frame, only while GROWING.
+- The sediment overlay sprite only becomes visible once sediment_level > 0.1 (and only while GROWING)
+
+Chum is an instant flat progress jump, not a temporary speed boost. Clicking Chum on a GROWING clam adds chum_boost seconds directly to growth_progress once per click. It has no effect on EMPTY or READY clams.
+
+Scrub Brush subtracts a flat 0.2 from sediment_level each click.
+
+Tool/input architecture:
+- Global.gd (autoload singleton) holds ONE global active_tool enum (HAND, BRUSH, CHUM, SONAR) and updates it from input actions (HAND_SELECT/BRUSH_SELECT/CHUM_SELECT/SONAR_SELECT — bound to 1/H, 2/B, 3/C, 4/F) via _unhandled_input.
+- Each Clam is an Area2D that listens for input_event (a click landing on ITS OWN collision shape) and then matches Global.active_tool to decide what happens. This means Hand/Brush/Chum are all "click directly on a clam" tools.
+- Sonar currently has a placeholder: clicking a clam while Sonar is selected just prints "Sonar used on clam! (No effect)" — there's no real area/targeting logic for it yet, and it's only wired to fire when a clam itself is clicked (not a click anywhere in the water).
+- There is no signal system yet anywhere in the project — nothing broadcasts state changes (planted / harvested / matured); other systems would have to poll a clam's public vars to know what it's doing.
+
+Scene / world layout:
+- Design resolution is 1920x1080 (window shown at 1280x720, stretch mode "canvas_items").
+- main.tscn is a Node2D root containing: Background (underwater_bg, full-screen, centered at 960,540), SurfaceDock (surface_dock sprite, centered near the top at 960,100 — this band appears to represent the surface/non-water area), and currently one Clam instance at (960, 800).
+- project.godot already declares a Global Group named "clams" (Project Settings > Global Groups), but no node is actually assigned to it yet in either clam.tscn or main.tscn — a Clam still needs to be added to that group (via the editor's Groups tab, or add_to_group("clams") in code) before anything can query "every clam currently in the scene."
+- scenes/crab.gd and scenes/crab.tscn already exist as empty scaffolding: crab.tscn is an Area2D named "Crab" with a CrabSprite (crab.png) and a RectangleShape2D (86x79) collision shape; crab.gd just extends Area2D with empty _ready()/_process() bodies — no fields, no state, no movement yet.
+- assets/sprites already has crab.png, sonic_flare_icon.png, and a sonic_flare_anim.png spritesheet ready to use.
+

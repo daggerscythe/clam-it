@@ -2,6 +2,9 @@ extends Area2D
 
 enum State { EMPTY, GROWING, READY }
 var current_state: State = State.EMPTY
+# state emitter for crabs
+signal state_changed(new_state: State)
+var is_under_attack: bool = false
 
 @export var growth_time: float = 10.0 # seconds to grow
 @export var sediment_rate: float = 0.15 # rate at which sediment grows per second
@@ -20,15 +23,14 @@ var texture_dummy = preload("res://assets/sprites/pearl_dummy.png")
 var texture_mature = preload("res://assets/sprites/mature_pearl.png")
 var texture_sediment = preload("res://assets/sprites/sediment_overlay.png")
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	input_event.connect(_on_input_event)
 	update_visuals()
 
 func _process(delta: float) -> void:
-	# Only accumulate sediment and progress growth while GROWING
-	if current_state == State.GROWING:
+	# Only accumulate sediment and progress growth while GROWING and not being attacked
+	if current_state == State.GROWING and not is_under_attack:
 		# Accumulate sediment over time
 		if sediment_level < 1.0:
 			sediment_level += sediment_rate * delta
@@ -57,9 +59,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 				handle_brush_tool()
 			Global.Tool.CHUM:
 				handle_chum_tool()
-			Global.Tool.SONAR:
-				print("Sonar used on clam! (No effect)")
-		
+
 func handle_hand_tool() -> void:
 	match current_state:
 		State.EMPTY:
@@ -79,6 +79,7 @@ func handle_chum_tool() -> void:
 	if current_state == State.GROWING:
 		growth_progress += chum_boost
 		growth_progress = clamp(growth_progress, 0.0, growth_time)
+		Global.add_chum_heat() # fill up chum gauge
 		print("Applied Chum. Growth progress: ", snapped(growth_progress, 0.1), " / ", growth_time, "s")
 		
 		# growth guard
@@ -112,7 +113,25 @@ func scrub_sediment() -> void:
 	update_sediment_visuals()
 	print("Scrubbed clam! Current sediment: ", sediment_level)
 
+func start_attack() -> void:
+	is_under_attack = true
+	print("A crab is attacking the clam!")
+
+func end_attack_success() -> void:
+	current_state = State.EMPTY
+	growth_progress = 0.0
+	sediment_level = 0.0
+	is_under_attack = false
+	update_visuals()
+	update_sediment_visuals()
+	print("Crab is destroyed the pearl! Clam is empty again :(")
+
+func end_attack_cancelled() -> void:
+	is_under_attack = false
+	print("Crab was scared off!")
+
 func update_visuals() -> void:
+	state_changed.emit(current_state) # let the crabs know what's up
 	match current_state:
 		State.EMPTY:
 			clam_sprite.texture = texture_empty

@@ -8,8 +8,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_2qrml"]
 radius = 60.00833
 
-[node name="Clam" type="Area2D" unique_id=1001873804]
+[node name="Clam" type="Area2D" unique_id=1001873804 groups=["clams"]]
 script = ExtResource("1_o84wg")
+growth_time = 30.0
 
 [node name="ClamSprite" type="Sprite2D" parent="." unique_id=1669501540]
 texture = ExtResource("2_t4yh2")

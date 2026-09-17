@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://c6sl2p6s8687y"]
+
+[ext_resource type="Script" uid="uid://crm7ko6vn7skk" path="res://scripts/crab.gd" id="1_2b8bq"]
+[ext_resource type="Texture2D" uid="uid://bh4ek83ptyyn2" path="res://assets/sprites/crab.png" id="1_ow7wl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1uo8"]
+size = Vector2(86, 79)
+
+[node name="Crab" type="Area2D" unique_id=1469359816 groups=["crabs"]]
+script = ExtResource("1_2b8bq")
+
+[node name="CrabSprite" type="Sprite2D" parent="." unique_id=2125795065]
+texture = ExtResource("1_ow7wl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=875707302]
+position = Vector2(-1, -1.5)
+shape = SubResource("RectangleShape2D_o1uo8")
