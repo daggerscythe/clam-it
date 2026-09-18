@@ -79,7 +79,7 @@ func find_target() -> void:
 func start_attacking() -> void:
 	state = CrabState.ATTACKING
 	attack_timer = 0.0
-	target_clam.start_attack()
+	target_clam.start_attack(ATTACK_DURATION)
 
 func start_fleeing() -> void:
 	state = CrabState.FLEEING

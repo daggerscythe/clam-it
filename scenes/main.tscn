@@ -24,3 +24,23 @@ position = Vector2(423, 525)
 
 [node name="Clam3" parent="." unique_id=165787267 instance=ExtResource("3_tbgi4")]
 position = Vector2(1441, 734)
+
+[node name="ChumMeterBar" type="Node2D" parent="." unique_id=2124177765]
+position = Vector2(1650, 40)
+
+[node name="MeterBackground" type="ColorRect" parent="ChumMeterBar" unique_id=43310224]
+offset_right = 200.0
+offset_bottom = 16.0
+mouse_filter = 2
+color = Color(0.3491902, 0.3491902, 0.3491902, 0.6)
+
+[node name="MeterFill" type="ColorRect" parent="ChumMeterBar" unique_id=668964306]
+offset_right = 200.0
+offset_bottom = 16.0
+mouse_filter = 2
+color = Color(0.22091639, 0.74190533, 0.48000664, 1)
+
+[node name="ThresholdTick" type="ColorRect" parent="ChumMeterBar" unique_id=964839973]
+offset_right = 2.0
+offset_bottom = 16.0
+mouse_filter = 2

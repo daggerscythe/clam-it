@@ -1,6 +1,18 @@
 extends Node2D
 
 const FLARE_RADIUS: float = 250.0
+const CHUM_BAR_WIDTH: float = 200.0
+
+@onready var chum_bar_fill: ColorRect = $ChumMeterBar/MeterFill
+@onready var chum_bar_tick: ColorRect = $ChumMeterBar/ThresholdTick
+
+func _ready() -> void:
+	var threshold_fraction: float = Global.CRAB_SPAWN_THRESHOLD / Global.CHUM_METER_MAX
+	chum_bar_tick.position.x = CHUM_BAR_WIDTH * threshold_fraction
+
+func _process(_delta: float) -> void:
+	var fraction: float = clamp(Global.chum_meter / Global.CHUM_METER_MAX, 0.0, 1.0)
+	chum_bar_fill.size.x = CHUM_BAR_WIDTH * fraction
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Global.active_tool == Global.Tool.SONAR and event is InputEventMouseButton:

@@ -25,3 +25,21 @@ texture = ExtResource("4_t4yh2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=660892550]
 shape = SubResource("CircleShape2D_2qrml")
+
+[node name="GrowthBarRoot" type="Node2D" parent="." unique_id=742452650]
+visible = false
+position = Vector2(0, -75)
+
+[node name="BarBackground" type="ColorRect" parent="GrowthBarRoot" unique_id=2093488191]
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(0.3491902, 0.3491902, 0.3491902, 0.6)
+
+[node name="BarFill" type="ColorRect" parent="GrowthBarRoot" unique_id=1125442985]
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(0.48671517, 0.9102267, 0.48671517, 1)

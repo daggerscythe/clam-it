@@ -1,10 +1,23 @@
 extends Area2D
 
+var texture_empty = preload("res://assets/sprites/clam_empty_growing.png")
+var texture_open = preload("res://assets/sprites/clam_ready_open.png")
+var texture_dummy = preload("res://assets/sprites/pearl_dummy.png")
+var texture_mature = preload("res://assets/sprites/mature_pearl.png")
+var texture_sediment = preload("res://assets/sprites/sediment_overlay.png")
+
 enum State { EMPTY, GROWING, READY }
 var current_state: State = State.EMPTY
-# state emitter for crabs
+
+const BAR_WIDTH: float = 100.0
+const COLOR_GROWTH: Color = Color(0.2, 0.8, 0.2)
+const COLOR_ATTACK: Color = Color(0.85, 0.15, 0.15)
+
+# variables for crabs
 signal state_changed(new_state: State)
 var is_under_attack: bool = false
+var attack_progress: float = 0.0
+var attack_duration: float = 2.0
 
 @export var growth_time: float = 10.0 # seconds to grow
 @export var sediment_rate: float = 0.15 # rate at which sediment grows per second
@@ -16,12 +29,9 @@ var sediment_level: float = 0.0 # 0.0 to 1.0
 @onready var clam_sprite: Sprite2D = $ClamSprite
 @onready var pearl_sprite: Sprite2D = $PearlSprite
 @onready var sediment_sprite: Sprite2D = $SedimentSprite
+@onready var growth_bar_root: Node2D = $GrowthBarRoot
+@onready var growth_bar_fill: ColorRect = $GrowthBarRoot/BarFill
 
-var texture_empty = preload("res://assets/sprites/clam_empty_growing.png")
-var texture_open = preload("res://assets/sprites/clam_ready_open.png")
-var texture_dummy = preload("res://assets/sprites/pearl_dummy.png")
-var texture_mature = preload("res://assets/sprites/mature_pearl.png")
-var texture_sediment = preload("res://assets/sprites/sediment_overlay.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,6 +39,11 @@ func _ready() -> void:
 	update_visuals()
 
 func _process(delta: float) -> void:
+	if is_under_attack:
+		attack_progress += delta
+		update_attack_bar()
+		return
+	
 	# Only accumulate sediment and progress growth while GROWING and not being attacked
 	if current_state == State.GROWING and not is_under_attack:
 		# Accumulate sediment over time
@@ -47,6 +62,10 @@ func _process(delta: float) -> void:
 		if growth_progress >= growth_time:
 			current_state = State.READY
 			update_visuals()
+		
+		update_growth_bar()
+	else:
+		growth_bar_root.visible = false
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	# Check for left mouse click
@@ -113,8 +132,10 @@ func scrub_sediment() -> void:
 	update_sediment_visuals()
 	print("Scrubbed clam! Current sediment: ", sediment_level)
 
-func start_attack() -> void:
+func start_attack(duration: float) -> void:
 	is_under_attack = true
+	attack_progress = 0.0
+	attack_duration = duration
 	print("A crab is attacking the clam!")
 
 func end_attack_success() -> void:
@@ -122,6 +143,7 @@ func end_attack_success() -> void:
 	growth_progress = 0.0
 	sediment_level = 0.0
 	is_under_attack = false
+	growth_bar_root.visible = false
 	update_visuals()
 	update_sediment_visuals()
 	print("Crab is destroyed the pearl! Clam is empty again :(")
@@ -152,3 +174,15 @@ func update_sediment_visuals() -> void:
 		sediment_sprite.modulate.a = sediment_level
 	else:
 		sediment_sprite.visible = false
+
+func update_growth_bar() -> void:
+	growth_bar_root.visible = true
+	growth_bar_fill.color = COLOR_GROWTH
+	var fraction: float = clamp(growth_progress / growth_time, 0.0, 1.0)
+	growth_bar_fill.size.x = BAR_WIDTH * fraction
+
+func update_attack_bar() -> void:
+	growth_bar_root.visible = true
+	growth_bar_fill.color = COLOR_ATTACK
+	var fraction: float = clamp(attack_progress / attack_duration, 0.0, 1.0)
+	growth_bar_fill.size.x = BAR_WIDTH * fraction
