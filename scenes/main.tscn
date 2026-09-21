@@ -4,6 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://5mlnh81hc4ve" path="res://assets/sprites/underwater_bg.png" id="1_sugp2"]
 [ext_resource type="Texture2D" uid="uid://cj7fw4sdx2o7f" path="res://assets/sprites/surface_dock.png" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://3wich13qn7lu" path="res://scenes/clam.tscn" id="3_tbgi4"]
+[ext_resource type="Script" uid="uid://cvxyqo0rkxu43" path="res://scripts/surface_dock.gd" id="4_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://cwvnr71oreaqi" path="res://assets/sprites/sand.png" id="5_a8y0u"]
+[ext_resource type="Script" uid="uid://cjlw6masa5eqg" path="res://scripts/level_up_popup.gd" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://cbou182giaiyd" path="res://scripts/pause_ui.gd" id="6_tipki"]
+[ext_resource type="Texture2D" uid="uid://bcktqso6rhshe" path="res://assets/sprites/pause.png" id="8_85g3d"]
+[ext_resource type="Texture2D" uid="uid://ekhwwmuq1s2y" path="res://assets/sprites/hand.png" id="9_eb6dy"]
+[ext_resource type="Script" uid="uid://yrgm3wr0x2h6" path="res://scripts/tool_selector.gd" id="9_trceg"]
+[ext_resource type="Texture2D" uid="uid://cesn33o6lf0w8" path="res://assets/sprites/brush.png" id="10_trceg"]
+[ext_resource type="Texture2D" uid="uid://cmoags1oi0k0j" path="res://assets/sprites/chum.png" id="11_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://g267an6p5nor" path="res://assets/sprites/sonic_flare_icon.png" id="12_jkv2x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1uo8"]
+size = Vector2(1926, 209)
 
 [node name="Main" type="Node2D" unique_id=2329855]
 script = ExtResource("1_jyhfs")
@@ -16,14 +29,27 @@ texture = ExtResource("1_sugp2")
 position = Vector2(960, 100)
 texture = ExtResource("2_jyhfs")
 
+[node name="SurfaceDockArea" type="Area2D" parent="SurfaceDock" unique_id=1495533529]
+script = ExtResource("4_tbgi4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SurfaceDock/SurfaceDockArea" unique_id=148600740]
+position = Vector2(3, -0.5)
+shape = SubResource("RectangleShape2D_o1uo8")
+
+[node name="Seafloor" type="Sprite2D" parent="." unique_id=1562004449]
+position = Vector2(963, 954)
+texture = ExtResource("5_a8y0u")
+
 [node name="Clam" parent="." unique_id=1001873804 instance=ExtResource("3_tbgi4")]
 position = Vector2(960, 800)
 
 [node name="Clam2" parent="." unique_id=1591416584 instance=ExtResource("3_tbgi4")]
 position = Vector2(423, 525)
+unlock_level = 2
 
 [node name="Clam3" parent="." unique_id=165787267 instance=ExtResource("3_tbgi4")]
 position = Vector2(1441, 734)
+unlock_level = 3
 
 [node name="ChumMeterBar" type="Node2D" parent="." unique_id=2124177765]
 position = Vector2(1650, 40)
@@ -44,3 +70,159 @@ color = Color(0.22091639, 0.74190533, 0.48000664, 1)
 offset_right = 2.0
 offset_bottom = 16.0
 mouse_filter = 2
+
+[node name="XPBarRoot" type="Node2D" parent="." unique_id=1755688829]
+position = Vector2(20, 20)
+
+[node name="LevelLabel" type="Label" parent="XPBarRoot" unique_id=1358439995]
+offset_right = 70.0
+offset_bottom = 30.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BarBackground" type="ColorRect" parent="XPBarRoot" unique_id=2029122030]
+offset_left = 80.0
+offset_right = 380.0
+offset_bottom = 30.0
+mouse_filter = 2
+color = Color(0.3491902, 0.3491902, 0.3491902, 0.6)
+
+[node name="BarFill" type="ColorRect" parent="XPBarRoot" unique_id=2033445263]
+offset_left = 80.0
+offset_right = 380.0
+offset_bottom = 30.0
+mouse_filter = 2
+color = Color(0.9309246, 0.82665706, 0.39588127, 1)
+
+[node name="XPLabel" type="Label" parent="XPBarRoot" unique_id=1709309959]
+offset_left = 80.0
+offset_right = 380.0
+offset_bottom = 30.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseUI" type="CanvasLayer" parent="." unique_id=72117448]
+process_mode = 3
+script = ExtResource("6_tipki")
+
+[node name="LevelUpPopup" type="Node2D" parent="PauseUI" unique_id=959149910]
+script = ExtResource("6_tefeu")
+
+[node name="DimBackground" type="ColorRect" parent="PauseUI/LevelUpPopup" unique_id=1067013452]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 0.2509804)
+
+[node name="Panel" type="ColorRect" parent="PauseUI/LevelUpPopup" unique_id=1929528361]
+offset_left = 660.0
+offset_top = 340.0
+offset_right = 1260.0
+offset_bottom = 740.0
+mouse_filter = 2
+color = Color(0.8980392, 0.79607844, 0.08627451, 1)
+
+[node name="TitleLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=1367140280]
+offset_left = 686.0
+offset_top = 364.0
+offset_right = 1235.0
+offset_bottom = 417.0
+theme_override_font_sizes/font_size = 42
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ToolImage" type="TextureRect" parent="PauseUI/LevelUpPopup" unique_id=732978160]
+offset_left = 884.0
+offset_top = 407.0
+offset_right = 1048.0
+offset_bottom = 565.0
+stretch_mode = 5
+
+[node name="HowToUseLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=2019490052]
+custom_minimum_size = Vector2(560, 0)
+offset_left = 680.0
+offset_top = 630.0
+offset_right = 1240.0
+offset_bottom = 670.0
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="WhatItDoesLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=1783021982]
+custom_minimum_size = Vector2(559, 0)
+offset_left = 679.0
+offset_top = 582.0
+offset_right = 1238.0
+offset_bottom = 622.0
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="GotItButton" type="Button" parent="PauseUI/LevelUpPopup" unique_id=848825902]
+offset_left = 860.0
+offset_top = 677.0
+offset_right = 1060.0
+offset_bottom = 717.0
+text = "Got It!"
+
+[node name="PauseButton" type="Button" parent="PauseUI" unique_id=512651317]
+offset_left = 1865.0
+offset_top = 13.0
+offset_right = 1916.0
+offset_bottom = 62.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+icon = ExtResource("8_85g3d")
+icon_alignment = 1
+
+[node name="PausedLabel" type="Label" parent="PauseUI" unique_id=1190496773]
+offset_left = 830.0
+offset_top = 962.0
+offset_right = 1077.0
+offset_bottom = 1050.0
+theme_override_colors/font_color = Color(0.61097354, 1.7086417e-06, 3.3691526e-07, 1)
+theme_override_font_sizes/font_size = 64
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ToolSelector" type="Node2D" parent="." unique_id=87913514]
+position = Vector2(20, 980)
+script = ExtResource("9_trceg")
+
+[node name="SelectionHighlight" type="ColorRect" parent="ToolSelector" unique_id=1935044673]
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 68.0
+offset_bottom = 68.0
+mouse_filter = 2
+color = Color(1, 0.95281494, 0.5847179, 0.8)
+
+[node name="HandSlot" type="TextureRect" parent="ToolSelector" unique_id=432590606]
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("9_eb6dy")
+stretch_mode = 5
+
+[node name="BrushSlot" type="TextureRect" parent="ToolSelector" unique_id=548876712]
+offset_left = 74.0
+offset_right = 138.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("10_trceg")
+stretch_mode = 5
+
+[node name="ChumSlot" type="TextureRect" parent="ToolSelector" unique_id=1245500264]
+offset_left = 148.0
+offset_right = 212.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("11_a8y0u")
+stretch_mode = 5
+
+[node name="SonarSlot" type="TextureRect" parent="ToolSelector" unique_id=1960542752]
+offset_left = 222.0
+offset_right = 286.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("12_jkv2x")
+stretch_mode = 5

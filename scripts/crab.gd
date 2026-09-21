@@ -6,7 +6,6 @@ var state: CrabState = CrabState.SEEKING
 # CRAB CONSTANTS
 const SPEED: float = 80.0
 const FLEE_SPEED_MULTIPLIER: float = 2.0
-const ATTACK_DURATION: float = 2.0
 const STOP_DISTANCE: float = 55.0
 
 var target_clam: Node = null
@@ -42,7 +41,7 @@ func _process_seeking(delta: float) -> void:
 
 func _process_attacking(delta: float) -> void:
 	attack_timer += delta
-	if attack_timer >= ATTACK_DURATION:
+	if attack_timer >= Global.CRAB_ATTACK_DURATION:
 		# disconnect from target's signal so the destruction of pearl doesn't interrupt attack
 		var clam_plundered: Node = target_clam
 		start_fleeing()
@@ -79,7 +78,7 @@ func find_target() -> void:
 func start_attacking() -> void:
 	state = CrabState.ATTACKING
 	attack_timer = 0.0
-	target_clam.start_attack(ATTACK_DURATION)
+	target_clam.start_attack(Global.CRAB_ATTACK_DURATION)
 
 func start_fleeing() -> void:
 	state = CrabState.FLEEING

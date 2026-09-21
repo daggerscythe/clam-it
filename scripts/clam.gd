@@ -17,25 +17,31 @@ const COLOR_ATTACK: Color = Color(0.85, 0.15, 0.15)
 signal state_changed(new_state: State)
 var is_under_attack: bool = false
 var attack_progress: float = 0.0
-var attack_duration: float = 2.0
+var attack_duration: float = Global.CRAB_ATTACK_DURATION
 
 @export var growth_time: float = 10.0 # seconds to grow
 @export var sediment_rate: float = 0.15 # rate at which sediment grows per second
 @export var chum_boost: float = 1.0 # seconds cleared off the timer
+@export var sediment_grace_period: float = 4.0 # seconds
+@export var unlock_level: int = 1
 
 var growth_progress: float = 0.0 # tracks accumulated growth seconds 0.0 to growth_time
+var is_unlocked: bool = true
 var sediment_level: float = 0.0 # 0.0 to 1.0
+var sediment_grace_timer: float = 0.0
 
 @onready var clam_sprite: Sprite2D = $ClamSprite
 @onready var pearl_sprite: Sprite2D = $PearlSprite
 @onready var sediment_sprite: Sprite2D = $SedimentSprite
 @onready var growth_bar_root: Node2D = $GrowthBarRoot
 @onready var growth_bar_fill: ColorRect = $GrowthBarRoot/BarFill
-
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	input_event.connect(_on_input_event)
+	growth_time = PlayerProgress.get_growth_time_for_level(PlayerProgress.current_level)
+	set_unlocked(PlayerProgress.current_level >= unlock_level)
 	update_visuals()
 
 func _process(delta: float) -> void:
@@ -44,13 +50,17 @@ func _process(delta: float) -> void:
 		update_attack_bar()
 		return
 	
-	# Only accumulate sediment and progress growth while GROWING and not being attacked
-	if current_state == State.GROWING and not is_under_attack:
-		# Accumulate sediment over time
-		if sediment_level < 1.0:
-			sediment_level += sediment_rate * delta
-			sediment_level = clamp(sediment_level, 0.0, 1.0)
-			update_sediment_visuals()
+	# Only accumulate sediment and progress growth while GROWING
+	if current_state == State.GROWING:
+		if PlayerProgress.current_level >= 2:
+			# Don't accumulate sediment if just cleaned
+			if sediment_grace_timer > 0.0:
+				sediment_grace_timer -= delta
+			# Accumulate sediment over time
+			elif sediment_level < 1.0:
+				sediment_level += sediment_rate * delta
+				sediment_level = clamp(sediment_level, 0.0, 1.0)
+				update_sediment_visuals()
 			
 		# Slow down growth based on level
 		var growth_speed_multiplier: float = 1.0 - (sediment_level * 0.9) # with level=1.0, pearls grows at 10%
@@ -79,6 +89,12 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 			Global.Tool.CHUM:
 				handle_chum_tool()
 
+func set_unlocked(unlocked: bool) -> void:
+	is_unlocked = unlocked
+	visible = unlocked
+	input_pickable = unlocked
+	collision_shape.disabled = not unlocked
+
 func handle_hand_tool() -> void:
 	match current_state:
 		State.EMPTY:
@@ -99,6 +115,7 @@ func handle_chum_tool() -> void:
 		growth_progress += chum_boost
 		growth_progress = clamp(growth_progress, 0.0, growth_time)
 		Global.add_chum_heat() # fill up chum gauge
+		PlayerProgress.award_xp(PlayerProgress.CHUM_XP)
 		print("Applied Chum. Growth progress: ", snapped(growth_progress, 0.1), " / ", growth_time, "s")
 		
 		# growth guard
@@ -112,8 +129,10 @@ func plant_dummy() -> void:
 	current_state = State.GROWING
 	growth_progress = 0.0
 	sediment_level = 0.0
+	sediment_grace_timer = sediment_grace_period
 	update_visuals()
 	update_sediment_visuals()
+	PlayerProgress.award_xp(PlayerProgress.PLANT_XP)
 	print("Planted pearl dummy!")
 
 func harvest_pearl() -> void:
@@ -122,13 +141,15 @@ func harvest_pearl() -> void:
 	sediment_level = 0.0
 	update_visuals()
 	update_sediment_visuals()
-	# Emit a signal here later to give XP and money
+	PlayerProgress.collect_pearl()
 	print("Pearl harvested!")
 
 func scrub_sediment() -> void:
 	# Reduce seciment by 50% when clicked
 	sediment_level -= 0.2
 	sediment_level = clamp(sediment_level, 0.0, 1.0)
+	if sediment_level <= 0.0:
+		sediment_grace_timer = sediment_grace_period
 	update_sediment_visuals()
 	print("Scrubbed clam! Current sediment: ", sediment_level)
 

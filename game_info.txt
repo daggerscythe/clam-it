@@ -71,3 +71,10 @@ Scene / world layout:
 - scenes/crab.gd and scenes/crab.tscn already exist as empty scaffolding: crab.tscn is an Area2D named "Crab" with a CrabSprite (crab.png) and a RectangleShape2D (86x79) collision shape; crab.gd just extends Area2D with empty _ready()/_process() bodies — no fields, no state, no movement yet.
 - assets/sprites already has crab.png, sonic_flare_icon.png, and a sonic_flare_anim.png spritesheet ready to use.
 
+
+Leveling / XP:
+- Micro-action XP: scrub = 1, plant = 2, harvest = 1 (small, as you said), chum = 3, crab scared off = 5
+- Selling: 40 XP per pearl (large, so it's the dominant level-up driver like you described)
+- Cumulative XP thresholds: Level 2 @ 40, Level 3 @ 150, Level 4 @ 400, Level 5 (freeplay) @ 900
+- Growth times: Level 1 = 5s, Level 2 = 10s, Level 3 = 30s, Level 4+ = 30s
+

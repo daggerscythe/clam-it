@@ -3,10 +3,15 @@ extends Node
 # PLAYER TOOLS
 enum Tool { HAND, BRUSH, CHUM, SONAR }
 var active_tool: Tool = Tool.HAND
+const CURSOR_HAND: Texture2D = preload("res://assets/sprites/hand.png")
+const CURSOR_BRUSH: Texture2D = preload("res://assets/sprites/brush.png")
+const CURSOR_CHUM: Texture2D = preload("res://assets/sprites/chum.png")
+const CURSOR_SONAR: Texture2D = preload("res://assets/sprites/sonic_flare_icon.png")
 
 # GAME CONSTANTS
 const CHUM_METER_MAX: float = 10.0
 const CRAB_SPAWN_THRESHOLD: float = 4.0
+const CRAB_ATTACK_DURATION: float = 2.0
 const CHUM_PER_USE: float = 1.0
 const METER_DECAY_RATE: float = 0.2
 const MAX_CRABS: int = 4
@@ -28,6 +33,9 @@ var crab_counter: int = 0
 var sonar_ammo: int = 4 # can probably be upgraded with XP or money
 var spawn_timer: float = 0.0
 
+func _ready() -> void:
+	set_cursor_for_tool()
+
 func _process(delta: float) -> void:
 	# Drain chum meter over time
 	if chum_meter > 0.0:
@@ -38,22 +46,44 @@ func _process(delta: float) -> void:
 	spawn_timer -= delta
 	if spawn_timer <= 0.0:
 		spawn_timer = get_spawn_interval()
-		if chum_meter >= CRAB_SPAWN_THRESHOLD and crab_counter < MAX_CRABS:
+		if PlayerProgress.current_level >= 4 and chum_meter >= CRAB_SPAWN_THRESHOLD and crab_counter < MAX_CRABS:
 			try_spawn_crab()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("HAND_SELECT"):
 		active_tool = Tool.HAND
-		print("Active Tool: HAND")
+		set_cursor_for_tool()
 	elif Input.is_action_just_pressed("BRUSH_SELECT"):
-		active_tool = Tool.BRUSH
-		print("Active Tool: BRUSH")
+		if PlayerProgress.is_tool_unlocked(Global.Tool.BRUSH):
+			active_tool = Tool.BRUSH
+			set_cursor_for_tool()
+		else:
+			print("Brush not unlocked yet.")
 	elif Input.is_action_just_pressed("CHUM_SELECT"):
-		active_tool = Tool.CHUM
-		print("Active Tool: CHUM")
+		if PlayerProgress.is_tool_unlocked(Global.Tool.CHUM):
+			active_tool = Tool.CHUM
+			set_cursor_for_tool()
+		else:
+			print("Chum not unlocked yet.")
 	elif Input.is_action_just_pressed("SONAR_SELECT"):
-		active_tool = Tool.SONAR
-		print("Active Tool: SONAR")
+		if PlayerProgress.is_tool_unlocked(Global.Tool.SONAR):
+			active_tool = Tool.SONAR
+			set_cursor_for_tool()
+		else: 
+			print("Sonar not unlocked yet.")
+
+func set_cursor_for_tool() -> void:
+	var texture: Texture2D
+	match active_tool:
+		Tool.HAND:
+			texture = CURSOR_HAND
+		Tool.BRUSH:
+			texture = CURSOR_BRUSH
+		Tool.CHUM:
+			texture = CURSOR_CHUM
+		Tool.SONAR:
+			texture = CURSOR_SONAR
+	Input.set_custom_mouse_cursor(texture, Input.CURSOR_ARROW, texture.get_size() / 2)
 
 func add_chum_heat() -> void:
 	chum_meter += CHUM_PER_USE
