@@ -1,7 +1,7 @@
 extends Node2D
 
 const FLARE_RADIUS: float = 250.0
-const CHUM_BAR_WIDTH: float = 200.0
+const CHUM_BAR_WIDTH: float = 270.0
 const XP_BAR_WIDTH: float = 300.0
 
 @onready var chum_bar_fill: ColorRect = $ChumMeterBar/MeterFill
@@ -9,10 +9,13 @@ const XP_BAR_WIDTH: float = 300.0
 @onready var level_label: Label = $XPBarRoot/LevelLabel
 @onready var xp_bar_fill: ColorRect = $XPBarRoot/BarFill
 @onready var xp_label: Label = $XPBarRoot/XPLabel
+@onready var money_label: Label = $Money/MoneyLabel
 
 func _ready() -> void:
 	var threshold_fraction: float = Global.CRAB_SPAWN_THRESHOLD / Global.CHUM_METER_MAX
 	chum_bar_tick.position.x = CHUM_BAR_WIDTH * threshold_fraction
+	PlayerProgress.money_changed.connect(update_money_label)
+	update_money_label(PlayerProgress.money)
 
 func _process(_delta: float) -> void:
 	var fraction: float = clamp(Global.chum_meter / Global.CHUM_METER_MAX, 0.0, 1.0)
@@ -35,6 +38,9 @@ func update_xp_bar() -> void:
 	else: 
 		xp_bar_fill.size.x = XP_BAR_WIDTH
 		xp_label.text = "MAX LEVEL"
+
+func update_money_label(new_money: int) -> void:
+	money_label.text = str(new_money)
 
 func fire_sonic_flare(click_position: Vector2) -> void:
 	if Global.sonar_ammo <= 0:

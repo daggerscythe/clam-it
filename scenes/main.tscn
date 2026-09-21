@@ -13,7 +13,11 @@
 [ext_resource type="Script" uid="uid://yrgm3wr0x2h6" path="res://scripts/tool_selector.gd" id="9_trceg"]
 [ext_resource type="Texture2D" uid="uid://cesn33o6lf0w8" path="res://assets/sprites/brush.png" id="10_trceg"]
 [ext_resource type="Texture2D" uid="uid://cmoags1oi0k0j" path="res://assets/sprites/chum.png" id="11_a8y0u"]
+[ext_resource type="StyleBox" uid="uid://b84j6as6i51ir" path="res://theme/slot_outline.tres" id="11_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://g267an6p5nor" path="res://assets/sprites/sonic_flare_icon.png" id="12_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://3gi4typvuj7y" path="res://assets/sprites/money.png" id="15_jkv2x"]
+[ext_resource type="Script" uid="uid://dg4fy4kj2j013" path="res://scripts/pearl_counter.gd" id="17_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://73grkfasgpu7" path="res://assets/sprites/mature_pearl.png" id="17_muem4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1uo8"]
 size = Vector2(1926, 209)
@@ -37,46 +41,59 @@ position = Vector2(3, -0.5)
 shape = SubResource("RectangleShape2D_o1uo8")
 
 [node name="Seafloor" type="Sprite2D" parent="." unique_id=1562004449]
-position = Vector2(963, 954)
+position = Vector2(963, 919.49994)
+scale = Vector2(1, 0.82749987)
 texture = ExtResource("5_a8y0u")
 
 [node name="Clam" parent="." unique_id=1001873804 instance=ExtResource("3_tbgi4")]
-position = Vector2(960, 800)
+position = Vector2(960, 848)
 
 [node name="Clam2" parent="." unique_id=1591416584 instance=ExtResource("3_tbgi4")]
-position = Vector2(423, 525)
+position = Vector2(502, 807)
 unlock_level = 2
 
 [node name="Clam3" parent="." unique_id=165787267 instance=ExtResource("3_tbgi4")]
-position = Vector2(1441, 734)
+position = Vector2(1499, 817)
 unlock_level = 3
 
 [node name="ChumMeterBar" type="Node2D" parent="." unique_id=2124177765]
-position = Vector2(1650, 40)
+position = Vector2(1542.0001, 34)
 
 [node name="MeterBackground" type="ColorRect" parent="ChumMeterBar" unique_id=43310224]
-offset_right = 200.0
-offset_bottom = 16.0
+offset_right = 270.0
+offset_bottom = 32.0
 mouse_filter = 2
 color = Color(0.3491902, 0.3491902, 0.3491902, 0.6)
 
 [node name="MeterFill" type="ColorRect" parent="ChumMeterBar" unique_id=668964306]
-offset_right = 200.0
-offset_bottom = 16.0
+offset_right = 270.0
+offset_bottom = 32.0
 mouse_filter = 2
 color = Color(0.22091639, 0.74190533, 0.48000664, 1)
 
 [node name="ThresholdTick" type="ColorRect" parent="ChumMeterBar" unique_id=964839973]
 offset_right = 2.0
-offset_bottom = 16.0
+offset_bottom = 32.0
 mouse_filter = 2
+
+[node name="ChumLabel" type="Label" parent="ChumMeterBar" unique_id=1785577829]
+offset_left = -180.0
+offset_right = -8.0
+offset_bottom = 33.0
+theme_override_font_sizes/font_size = 23
+text = "Chum Meter:"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="XPBarRoot" type="Node2D" parent="." unique_id=1755688829]
 position = Vector2(20, 20)
 
 [node name="LevelLabel" type="Label" parent="XPBarRoot" unique_id=1358439995]
-offset_right = 70.0
-offset_bottom = 30.0
+offset_left = -3.0
+offset_top = -8.0
+offset_right = 67.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -95,14 +112,17 @@ mouse_filter = 2
 color = Color(0.9309246, 0.82665706, 0.39588127, 1)
 
 [node name="XPLabel" type="Label" parent="XPBarRoot" unique_id=1709309959]
-offset_left = 80.0
-offset_right = 380.0
-offset_bottom = 30.0
+offset_left = 79.0
+offset_top = -6.0
+offset_right = 379.0
+offset_bottom = 37.0
+theme_override_font_sizes/font_size = 25
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PauseUI" type="CanvasLayer" parent="." unique_id=72117448]
 process_mode = 3
+process_priority = 1000
 script = ExtResource("6_tipki")
 
 [node name="LevelUpPopup" type="Node2D" parent="PauseUI" unique_id=959149910]
@@ -165,10 +185,11 @@ offset_bottom = 717.0
 text = "Got It!"
 
 [node name="PauseButton" type="Button" parent="PauseUI" unique_id=512651317]
-offset_left = 1865.0
-offset_top = 13.0
-offset_right = 1916.0
-offset_bottom = 62.0
+offset_left = 1837.0
+offset_top = 9.000001
+offset_right = 1888.0
+offset_bottom = 58.0
+scale = Vector2(1.4, 1.4)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 icon = ExtResource("8_85g3d")
 icon_alignment = 1
@@ -184,7 +205,51 @@ text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PauseMenu" type="Control" parent="PauseUI" unique_id=181644409]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MenuBackground" type="ColorRect" parent="PauseUI/PauseMenu" unique_id=569462842]
+layout_mode = 0
+offset_left = 810.0
+offset_top = 340.0
+offset_right = 1110.0
+offset_bottom = 680.0
+color = Color(0.3491902, 0.3491902, 0.3491902, 0.85)
+
+[node name="Buttons" type="VBoxContainer" parent="PauseUI/PauseMenu" unique_id=702503582]
+layout_mode = 0
+offset_left = 831.0
+offset_top = 380.0
+offset_right = 1086.0
+offset_bottom = 619.0
+theme_override_constants/separation = 20
+
+[node name="SaveButton" type="Button" parent="PauseUI/PauseMenu/Buttons" unique_id=2050525439]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Save"
+
+[node name="LoadButton" type="Button" parent="PauseUI/PauseMenu/Buttons" unique_id=589267995]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Load"
+
+[node name="SettingsButton" type="Button" parent="PauseUI/PauseMenu/Buttons" unique_id=900531026]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Settings"
+
+[node name="BackToMenuButton" type="Button" parent="PauseUI/PauseMenu/Buttons" unique_id=1493967364]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Back to Menu
+"
+
 [node name="ToolSelector" type="Node2D" parent="." unique_id=87913514]
+process_priority = 100
 position = Vector2(20, 980)
 script = ExtResource("9_trceg")
 
@@ -196,12 +261,28 @@ offset_bottom = 68.0
 mouse_filter = 2
 color = Color(1, 0.95281494, 0.5847179, 0.8)
 
+[node name="HandSlotOutline" type="Panel" parent="ToolSelector" unique_id=1368632260]
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 67.0
+offset_bottom = 67.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("11_jbj1t")
+
 [node name="HandSlot" type="TextureRect" parent="ToolSelector" unique_id=432590606]
 offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2
 texture = ExtResource("9_eb6dy")
 stretch_mode = 5
+
+[node name="BrushSlotOutline" type="Panel" parent="ToolSelector" unique_id=1301209722]
+offset_left = 71.0
+offset_top = -3.0
+offset_right = 141.0
+offset_bottom = 67.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("11_jbj1t")
 
 [node name="BrushSlot" type="TextureRect" parent="ToolSelector" unique_id=548876712]
 offset_left = 74.0
@@ -211,13 +292,29 @@ mouse_filter = 2
 texture = ExtResource("10_trceg")
 stretch_mode = 5
 
+[node name="ChumSlotOutline2" type="Panel" parent="ToolSelector" unique_id=1354975005]
+offset_left = 145.0
+offset_top = -3.0
+offset_right = 215.0
+offset_bottom = 67.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("11_jbj1t")
+
 [node name="ChumSlot" type="TextureRect" parent="ToolSelector" unique_id=1245500264]
-offset_left = 148.0
-offset_right = 212.0
+offset_left = 150.0
+offset_right = 214.0
 offset_bottom = 64.0
 mouse_filter = 2
 texture = ExtResource("11_a8y0u")
 stretch_mode = 5
+
+[node name="SonarSlotOutline3" type="Panel" parent="ToolSelector" unique_id=1986979209]
+offset_left = 219.0
+offset_top = -3.0
+offset_right = 289.0
+offset_bottom = 67.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("11_jbj1t")
 
 [node name="SonarSlot" type="TextureRect" parent="ToolSelector" unique_id=1960542752]
 offset_left = 222.0
@@ -226,3 +323,54 @@ offset_bottom = 64.0
 mouse_filter = 2
 texture = ExtResource("12_jkv2x")
 stretch_mode = 5
+
+[node name="AmmoLabel" type="Label" parent="ToolSelector/SonarSlot" unique_id=1408735608]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 37.0
+offset_right = 76.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+
+[node name="Money" type="Node2D" parent="." unique_id=795037707]
+
+[node name="MoneyLabel" type="Label" parent="Money" unique_id=258490851]
+offset_left = 83.0
+offset_top = 71.0
+offset_right = 200.0
+offset_bottom = 142.0
+theme_override_font_sizes/font_size = 35
+
+[node name="MoneyIcon" type="TextureRect" parent="Money" unique_id=1863172278]
+offset_left = 15.0
+offset_top = 67.0
+offset_right = 78.0
+offset_bottom = 126.0
+texture = ExtResource("15_jkv2x")
+
+[node name="PearlCounter" type="Node2D" parent="." unique_id=2122397557]
+position = Vector2(1836, 980)
+script = ExtResource("17_dp3eg")
+
+[node name="PearlSlotOutline" type="Panel" parent="PearlCounter" unique_id=324322588]
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 67.0
+offset_bottom = 67.0
+theme_override_styles/panel = ExtResource("11_jbj1t")
+
+[node name="PearlIcon" type="TextureRect" parent="PearlCounter" unique_id=1975833456]
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("17_muem4")
+stretch_mode = 5
+
+[node name="CountLabel" type="Label" parent="PearlCounter/PearlIcon" unique_id=1721212219]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 27.0
+offset_right = 64.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30

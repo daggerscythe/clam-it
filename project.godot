@@ -33,6 +33,10 @@ window/stretch/mode="canvas_items"
 clams=""
 crabs=""
 
+[gui]
+
+theme/custom_font="uid://c4o82lu4ifi1l"
+
 [input]
 
 HAND_SELECT={

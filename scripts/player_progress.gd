@@ -1,6 +1,7 @@
 extends Node
 
 signal level_changed(new_level: int)
+signal money_changed(new_money: int)
 
 # XP AWARDS
 const PLANT_XP: int = 2
@@ -8,6 +9,7 @@ const CHUM_XP: int = 2
 const HARVEST_XP: int = 3
 const FLARE_XP: int = 5
 const SELL_XP_PER_PEARL: int = 40
+const SELL_MONEY_PER_PEARL: float = 200.0
 
 # PEARLS TO BE SOLD TO ADVANCE
 const LEVEL_PEARLS_REQUIRED: Array[int] = [1, 2, 3, 3]
@@ -18,6 +20,7 @@ const LEVEL_GROWTH_TIMES: Array[float] = [5.0, 10.0, 30.0, 30.0]
 var current_level: int = 1
 var current_xp: int = 0
 var held_pearls: int = 0
+var money: float = 0.0
 
 # computer at startup
 var level_xp_thresholds: Array[int] = []
@@ -54,14 +57,18 @@ func collect_pearl() -> void:
 	held_pearls += 1
 	award_xp(HARVEST_XP)
 
-func sell_all_pearls() -> void:
+func sell_all_pearls() -> float:
 	if held_pearls <= 0:
 		print("No pearls to sell!")
-		return
-	var earned: int = held_pearls * SELL_XP_PER_PEARL
-	print("Sold ", held_pearls, " pearl(s) for ", earned, " XP!")
+		return 0
+	var earned_xp: int = held_pearls * SELL_XP_PER_PEARL
+	var earned_money: float = held_pearls * SELL_MONEY_PER_PEARL
+	print("Sold ", held_pearls, " pearl(s) for ", earned_xp, " XP and $", earned_money)
 	held_pearls = 0
-	award_xp(earned)
+	money += earned_money
+	money_changed.emit(money)
+	award_xp(earned_xp)
+	return earned_money
 
 func is_tool_unlocked(tool: Global.Tool) -> bool:
 	match tool:
