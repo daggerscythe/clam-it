@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://g267an6p5nor" path="res://assets/sprites/sonic_flare_icon.png" id="12_jkv2x"]
 [ext_resource type="Texture2D" uid="uid://3gi4typvuj7y" path="res://assets/sprites/money.png" id="15_jkv2x"]
 [ext_resource type="Script" uid="uid://dg4fy4kj2j013" path="res://scripts/pearl_counter.gd" id="17_dp3eg"]
-[ext_resource type="Texture2D" uid="uid://73grkfasgpu7" path="res://assets/sprites/mature_pearl.png" id="17_muem4"]
+[ext_resource type="Texture2D" uid="uid://bdasmoflu0vh4" path="res://assets/sprites/akoya_pearl.png" id="18_dp3eg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1uo8"]
 size = Vector2(1926, 209)
@@ -46,15 +46,30 @@ scale = Vector2(1, 0.82749987)
 texture = ExtResource("5_a8y0u")
 
 [node name="Clam" parent="." unique_id=1001873804 instance=ExtResource("3_tbgi4")]
-position = Vector2(960, 848)
+position = Vector2(827, 866)
 
 [node name="Clam2" parent="." unique_id=1591416584 instance=ExtResource("3_tbgi4")]
-position = Vector2(502, 807)
+position = Vector2(427, 872)
 unlock_level = 2
 
 [node name="Clam3" parent="." unique_id=165787267 instance=ExtResource("3_tbgi4")]
 position = Vector2(1499, 817)
 unlock_level = 3
+
+[node name="Clam4" parent="." unique_id=1818274013 instance=ExtResource("3_tbgi4")]
+position = Vector2(1213, 912)
+unlock_level = 5
+purchase_slot = 1
+
+[node name="Clam5" parent="." unique_id=968433051 instance=ExtResource("3_tbgi4")]
+position = Vector2(1670, 948)
+unlock_level = 5
+purchase_slot = 2
+
+[node name="Clam6" parent="." unique_id=913036741 instance=ExtResource("3_tbgi4")]
+position = Vector2(161, 880)
+unlock_level = 5
+purchase_slot = 3
 
 [node name="ChumMeterBar" type="Node2D" parent="." unique_id=2124177765]
 position = Vector2(1542.0001, 34)
@@ -363,7 +378,7 @@ theme_override_styles/panel = ExtResource("11_jbj1t")
 [node name="PearlIcon" type="TextureRect" parent="PearlCounter" unique_id=1975833456]
 offset_right = 64.0
 offset_bottom = 64.0
-texture = ExtResource("17_muem4")
+texture = ExtResource("18_dp3eg")
 stretch_mode = 5
 
 [node name="CountLabel" type="Label" parent="PearlCounter/PearlIcon" unique_id=1721212219]

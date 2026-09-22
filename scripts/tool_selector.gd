@@ -20,7 +20,7 @@ func update_unlocked_slots(_new_level: int) -> void:
 	sonar_slot.visible = PlayerProgress.is_tool_unlocked(Global.Tool.SONAR)
 
 func _process(_delta: float) -> void:
-	sonar_ammo_label.text = str(Global.sonar_ammo)
+	sonar_ammo_label.text = str(PlayerProgress.sonar_ammo)
 	match Global.active_tool:
 		Global.Tool.HAND:
 			selection_highlight.position = hand_slot.position + HIGHLIGHT_OFFSET

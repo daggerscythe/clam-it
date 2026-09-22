@@ -10,11 +10,10 @@ const CURSOR_SONAR: Texture2D = preload("res://assets/sprites/sonic_flare_icon.p
 
 # GAME CONSTANTS
 const CHUM_METER_MAX: float = 10.0
-const CRAB_SPAWN_THRESHOLD: float = 4.0
+const CRAB_SPAWN_THRESHOLD: float = 4.0 # BASE, raisable by upgrades
 const CRAB_ATTACK_DURATION: float = 2.0
-const CHUM_PER_USE: float = 1.0
+const CHUM_PER_USE: float = 2.0
 const METER_DECAY_RATE: float = 0.2
-const MAX_CRABS: int = 4
 
 # SPAWN AREA BOUNDS
 const WATER_TOP_Y: float = 220.0
@@ -27,11 +26,15 @@ const SPAWN_INTERVAL_MAX: float = 6.0
 const SPAWN_INTERVAL_MIN: float = 1.5
 const CRAB_SCENE: PackedScene = preload("res://scenes/crab.tscn")
 
-# CRAB + CHUM + SONAR VARIABLES
+# CRAB + CHUM VARIABLES
 var chum_meter: float = 0.0
 var crab_counter: int = 0
-var sonar_ammo: int = 4 # can probably be upgraded with XP or money
 var spawn_timer: float = 0.0
+
+# SETTINGS
+var infinite_flares: bool = false
+var instant_clean: bool = false
+var instant_chum: bool = false
 
 func _ready() -> void:
 	set_cursor_for_tool()
@@ -46,10 +49,10 @@ func _process(delta: float) -> void:
 	spawn_timer -= delta
 	if spawn_timer <= 0.0:
 		spawn_timer = get_spawn_interval()
-		if PlayerProgress.current_level >= 4 and chum_meter >= CRAB_SPAWN_THRESHOLD and crab_counter < MAX_CRABS:
+		if PlayerProgress.current_level >= PlayerProgress.SONAR_UNLOCK_LEVEL and chum_meter >= PlayerProgress.get_crab_spawn_threshold() and crab_counter < PlayerProgress.get_max_crabs():
 			try_spawn_crab()
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("HAND_SELECT"):
 		active_tool = Tool.HAND
 		set_cursor_for_tool()
@@ -92,7 +95,8 @@ func add_chum_heat() -> void:
 func get_spawn_interval() -> float:
 	# the higher the meter = shorter spawn interval = faster spawns
 	# 0.0 is at crab spawn threshold, 1.0 at full gauge
-	var t: float = clamp((chum_meter - CRAB_SPAWN_THRESHOLD) / (CHUM_METER_MAX - CRAB_SPAWN_THRESHOLD), 0.0, 1.0)
+	var threshold: float = PlayerProgress.get_crab_spawn_threshold()
+	var t: float = clamp((chum_meter - threshold) / (CHUM_METER_MAX - threshold), 0.0, 1.0)
 	return lerp(SPAWN_INTERVAL_MAX, SPAWN_INTERVAL_MIN, t)
 
 func try_spawn_crab() -> void:
@@ -119,3 +123,9 @@ func get_random_spawn_position() -> Vector2:
 func on_crab_removed() -> void:
 	crab_counter -= 1
 	crab_counter = max(crab_counter, 0)
+
+# called after loading a save to reload the scene
+func reset_run_state() -> void:
+	chum_meter = 0.0
+	crab_counter = 0
+	spawn_timer = 0.0

@@ -25,7 +25,7 @@ const LEVEL_UNLOCK_INFO: Dictionary = {
 	5: {
 		"how_to_use": "All tools are unlocked!",
 		"what_it_does": "Keep planting, cleaning, and selling to keep progressing. It's you vs the crabs...",
-		"image": preload("res://assets/sprites/mature_pearl.png"),
+		"image": preload("res://assets/sprites/akoya_pearl.png"),
 	},
 }
 

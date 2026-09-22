@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://73grkfasgpu7"
-path="res://.godot/imported/mature_pearl.png-f8c399bd4772cc5d63c57272bd0474c5.ctex"
+uid="uid://bfa7mqk8brm0c"
+path="res://.godot/imported/abalone_pearl.png-acd5ffc6f64cf1ba02ea8bd5c2c68a84.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/mature_pearl.png"
-dest_files=["res://.godot/imported/mature_pearl.png-f8c399bd4772cc5d63c57272bd0474c5.ctex"]
+source_file="res://assets/sprites/abalone_pearl.png"
+dest_files=["res://.godot/imported/abalone_pearl.png-acd5ffc6f64cf1ba02ea8bd5c2c68a84.ctex"]
 
 [params]
 

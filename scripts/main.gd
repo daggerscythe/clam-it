@@ -1,6 +1,5 @@
 extends Node2D
 
-const FLARE_RADIUS: float = 250.0
 const CHUM_BAR_WIDTH: float = 270.0
 const XP_BAR_WIDTH: float = 300.0
 
@@ -12,14 +11,15 @@ const XP_BAR_WIDTH: float = 300.0
 @onready var money_label: Label = $Money/MoneyLabel
 
 func _ready() -> void:
-	var threshold_fraction: float = Global.CRAB_SPAWN_THRESHOLD / Global.CHUM_METER_MAX
-	chum_bar_tick.position.x = CHUM_BAR_WIDTH * threshold_fraction
 	PlayerProgress.money_changed.connect(update_money_label)
 	update_money_label(PlayerProgress.money)
 
 func _process(_delta: float) -> void:
 	var fraction: float = clamp(Global.chum_meter / Global.CHUM_METER_MAX, 0.0, 1.0)
 	chum_bar_fill.size.x = CHUM_BAR_WIDTH * fraction
+	# threshold can change with upgrades so i moved it from ready to process
+	var threshold_fraction: float = PlayerProgress.get_crab_spawn_threshold() / Global.CHUM_METER_MAX
+	chum_bar_tick.position.x = CHUM_BAR_WIDTH * threshold_fraction
 	update_xp_bar()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -28,29 +28,28 @@ func _unhandled_input(event: InputEvent) -> void:
 			fire_sonic_flare(get_global_mouse_position())
 
 func update_xp_bar() -> void:
-	level_label.text = "LVL %d" % PlayerProgress.current_level
-	var threshold_index: int = PlayerProgress.current_level - 1
-	if threshold_index < PlayerProgress.level_xp_thresholds.size():
-		var next_threshold: int = PlayerProgress.level_xp_thresholds[threshold_index]
-		var fraction: float = clamp(float(PlayerProgress.current_xp) / float(next_threshold), 0.0, 1.0)
-		xp_bar_fill.size.x = XP_BAR_WIDTH * fraction
-		xp_label.text = str(PlayerProgress.current_xp) + " / " + str(next_threshold)
-	else: 
-		xp_bar_fill.size.x = XP_BAR_WIDTH
-		xp_label.text = "MAX LEVEL"
+	var level: int = PlayerProgress.current_level
+	level_label.text = "LVL %d" % level
+	var level_start: int = PlayerProgress.get_xp_at_level_start(level)
+	var level_end: int = PlayerProgress.get_xp_to_finish_level(level)
+	var xp_into_level: int = PlayerProgress.current_xp - level_start
+	var xp_needed: int = level_end - level_start
+	var fraction: float = clamp(float(xp_into_level) / float(xp_needed), 0.0, 1.0)
+	xp_bar_fill.size.x = XP_BAR_WIDTH * fraction
+	xp_label.text = "%d / %d" % [xp_into_level, xp_needed]
 
 func update_money_label(new_money: int) -> void:
 	money_label.text = str(new_money)
 
 func fire_sonic_flare(click_position: Vector2) -> void:
-	if Global.sonar_ammo <= 0:
+	if not PlayerProgress.use_flare():
 		print("Out of sonic flares!")
 		return
 	
-	Global.sonar_ammo -= 1
+	var radius: float = PlayerProgress.get_flare_radius()
 	var scared_count: int = 0
 	for crab in get_tree().get_nodes_in_group("crabs"):
-		if crab.global_position.distance_to(click_position) <= FLARE_RADIUS:
+		if crab.global_position.distance_to(click_position) <= radius:
 			crab.scare_off()
 			scared_count += 1
-	print("Sonic flare scared off ", scared_count, " crabs! Ammo left: ", Global.sonar_ammo)
+	print("Sonic flare scared off ", scared_count, " crabs! Ammo left: ", PlayerProgress.sonar_ammo)
