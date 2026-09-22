@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bcktqso6rhshe" path="res://assets/sprites/pause.png" id="8_85g3d"]
 [ext_resource type="Texture2D" uid="uid://ekhwwmuq1s2y" path="res://assets/sprites/hand.png" id="9_eb6dy"]
 [ext_resource type="Script" uid="uid://yrgm3wr0x2h6" path="res://scripts/tool_selector.gd" id="9_trceg"]
+[ext_resource type="Script" uid="uid://drwik8ob3sjkl" path="res://scripts/upgrade_pick_popup.gd" id="10_0ld40"]
 [ext_resource type="Texture2D" uid="uid://cesn33o6lf0w8" path="res://assets/sprites/brush.png" id="10_trceg"]
 [ext_resource type="Texture2D" uid="uid://cmoags1oi0k0j" path="res://assets/sprites/chum.png" id="11_a8y0u"]
 [ext_resource type="StyleBox" uid="uid://b84j6as6i51ir" path="res://theme/slot_outline.tres" id="11_jbj1t"]
@@ -208,6 +209,73 @@ scale = Vector2(1.4, 1.4)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 icon = ExtResource("8_85g3d")
 icon_alignment = 1
+
+[node name="UpgradePickPopup" type="Control" parent="PauseUI" unique_id=1547949771]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_0ld40")
+
+[node name="DimBackground" type="ColorRect" parent="PauseUI/UpgradePickPopup" unique_id=887802477]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="ColorRect" parent="PauseUI/UpgradePickPopup" unique_id=1971643941]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 200.0
+offset_right = 1610.0
+offset_bottom = 880.0
+color = Color(0.8980392, 0.79607844, 0.08627451, 1)
+
+[node name="TitleLabel" type="Label" parent="PauseUI/UpgradePickPopup" unique_id=1129198485]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 220.0
+offset_right = 1610.0
+offset_bottom = 280.0
+theme_override_font_sizes/font_size = 42
+horizontal_alignment = 1
+
+[node name="CardRow" type="HBoxContainer" parent="PauseUI/UpgradePickPopup" unique_id=2079777110]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 300.0
+offset_right = 1590.0
+offset_bottom = 640.0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="InfoLabel" type="Label" parent="PauseUI/UpgradePickPopup" unique_id=1135317342]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 660.0
+offset_right = 1610.0
+offset_bottom = 700.0
+horizontal_alignment = 1
+
+[node name="SaveButton" type="Button" parent="PauseUI/UpgradePickPopup" unique_id=581773276]
+layout_mode = 0
+offset_left = 660.0
+offset_top = 730.0
+offset_right = 920.0
+offset_bottom = 790.0
+theme_override_font_sizes/font_size = 25
+text = "Save for Later"
+
+[node name="BuyButton" type="Button" parent="PauseUI/UpgradePickPopup" unique_id=1081697632]
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 730.0
+offset_right = 1260.0
+offset_bottom = 790.0
+theme_override_font_sizes/font_size = 25
+text = "Buy Now"
 
 [node name="PausedLabel" type="Label" parent="PauseUI" unique_id=1190496773]
 offset_left = 830.0
