@@ -21,7 +21,6 @@
 [ext_resource type="Texture2D" uid="uid://ddciliqxv4pb4" path="res://assets/sprites/check_off.png" id="13_og1vs"]
 [ext_resource type="Texture2D" uid="uid://3gi4typvuj7y" path="res://assets/sprites/money.png" id="15_jkv2x"]
 [ext_resource type="Script" uid="uid://dg4fy4kj2j013" path="res://scripts/pearl_counter.gd" id="17_dp3eg"]
-[ext_resource type="Texture2D" uid="uid://bdasmoflu0vh4" path="res://assets/sprites/akoya_pearl.png" id="18_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://dr17e8jj0yr8" path="res://assets/sprites/shop_icon.png" id="18_yc10j"]
 [ext_resource type="Script" uid="uid://dlhxxdqdtpfwe" path="res://scripts/chat_log.gd" id="22_jscy8"]
 
@@ -617,33 +616,11 @@ position = Vector2(1818, 980)
 scale = Vector2(1.2, 1.2)
 script = ExtResource("17_dp3eg")
 
-[node name="PearlSlotOutline" type="Panel" parent="PearlCounter" unique_id=324322588]
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 67.0
-offset_bottom = 67.0
-theme_override_styles/panel = ExtResource("11_jbj1t")
-
-[node name="PearlIcon" type="TextureRect" parent="PearlCounter" unique_id=1975833456]
-offset_right = 64.0
-offset_bottom = 64.0
-texture = ExtResource("18_dp3eg")
-stretch_mode = 5
-
-[node name="CountLabel" type="Label" parent="PearlCounter/PearlIcon" unique_id=1721212219]
-layout_mode = 0
-offset_left = 43.0
-offset_top = 27.0
-offset_right = 64.0
-offset_bottom = 70.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-
 [node name="ChatLog" type="PanelContainer" parent="." unique_id=976576312]
 offset_left = 1600.0
 offset_top = 380.0
 offset_right = 1900.0
-offset_bottom = 950.0
+offset_bottom = 680.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o1uo8")
 script = ExtResource("22_jscy8")
