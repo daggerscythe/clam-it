@@ -30,6 +30,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func update_xp_bar() -> void:
 	var level: int = PlayerProgress.current_level
 	level_label.text = "LVL %d" % level
+	if PlayerProgress.is_max_level():
+		xp_bar_fill.size.x = XP_BAR_WIDTH
+		xp_label.text = "MAX LEVEL"
+		return
 	var level_start: int = PlayerProgress.get_xp_at_level_start(level)
 	var level_end: int = PlayerProgress.get_xp_to_finish_level(level)
 	var xp_into_level: int = PlayerProgress.current_xp - level_start
@@ -43,11 +47,25 @@ func update_money_label(new_money: int) -> void:
 
 func fire_sonic_flare(click_position: Vector2) -> void:
 	if not PlayerProgress.use_flare():
+		GameLog.warn("Out of sonic flares! Buy more in the Shop.")
 		return
 	
 	var radius: float = PlayerProgress.get_flare_radius()
+	spawn_flare_effect(click_position, radius)
+	
 	var scared_count: int = 0
 	for crab in get_tree().get_nodes_in_group("crabs"):
 		if crab.global_position.distance_to(click_position) <= radius:
 			crab.scare_off()
 			scared_count += 1
+	
+	if scared_count > 0:
+		GameLog.good("Sonic flare scared off %d crab(s)!" % scared_count)
+	else:
+		GameLog.info("Sonic flare missed. No crabs in range.")
+
+func spawn_flare_effect(at_position: Vector2, radius: float) -> void:
+	var effect: FlareEffect = FlareEffect.new()
+	add_child(effect)
+	effect.global_position = at_position
+	effect.play(radius)

@@ -56,8 +56,8 @@ position = Vector2(3, -0.5)
 shape = SubResource("RectangleShape2D_o1uo8")
 
 [node name="Seafloor" type="Sprite2D" parent="." unique_id=1562004449]
-position = Vector2(966, 961)
-scale = Vector2(1, 0.82749987)
+position = Vector2(961.5, 964)
+scale = Vector2(1.0098958, 0.82749987)
 texture = ExtResource("5_a8y0u")
 
 [node name="Clam" parent="." unique_id=1001873804 instance=ExtResource("3_tbgi4")]
@@ -580,10 +580,10 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 
 [node name="ShopButton" type="TextureButton" parent="ToolSelector" unique_id=390519272]
-offset_left = 1748.0
-offset_top = -774.0
-offset_right = 1898.0
-offset_bottom = -624.0
+offset_left = 1430.8333
+offset_top = -644.1666
+offset_right = 1580.8333
+offset_bottom = -494.16663
 texture_normal = ExtResource("18_yc10j")
 ignore_texture_size = true
 stretch_mode = 5

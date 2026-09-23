@@ -164,8 +164,9 @@ func award_xp(amount: int) -> void:
 	check_level_up()
 
 func check_level_up() -> void:
-	while current_xp >= get_xp_to_finish_level(current_level):
+	while not is_max_level() and current_xp >= get_xp_to_finish_level(current_level):
 		current_level += 1
+		GameLog.event("LEVEL UP! You're now level %d." % current_level)
 		grant_level_flares(current_level)
 		refresh_clams()
 		level_changed.emit(current_level)
@@ -187,6 +188,14 @@ func get_xp_at_level_start(level: int) -> int:
 
 func get_freeplay_level_cost(n: int) -> int:
 	return int(FREEPLAY_BASE_XP + FREEPLAY_STEP * pow(float(n), 1.5))
+
+func is_max_level() -> bool:
+	if current_level < get_last_pearl_level():
+		return false
+	for type in UPGRADE_DATA:
+		if can_offer_upgrade(type):
+			return false
+	return true
 
 # --------------- CLAM FUNCTIONS ---------------
 func refresh_clams() -> void:
@@ -245,6 +254,12 @@ func get_total_held_pearls() -> int:
 	for type in held_pearls:
 		total += held_pearls[type]
 	return total
+
+func get_last_pearl_level() -> int:
+	var last: int = 1
+	for type in PEARL_DATA:
+		last = max(last, PEARL_DATA[type]["unlock_level"])
+	return last
 
 func sell_all_pearls() -> float:
 	var pearl_count: int = get_total_held_pearls()
