@@ -14,9 +14,13 @@ var style_selected: StyleBoxFlat
 var content: VBoxContainer
 var subtitle_label: Label
 
-# generates an upgrade card for the player
+# generates a card for an upgrade type
 func setup(type: int) -> void:
 	upgrade_type = type
+	build(PlayerProgress.UPGRADE_DATA[type]["icon"], PlayerProgress.get_upgrade_name(type), PlayerProgress.get_upgrade_effect_text(type, 1))
+
+# card for any shop item
+func build(icon_texture: Texture2D, title: String, description: String) -> void:
 	custom_minimum_size = Vector2(CARD_WIDTH, 300)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	style_normal = make_style(COLOR_BORDER, 3)
@@ -30,22 +34,22 @@ func setup(type: int) -> void:
 	add_child(content)
 	
 	var icon: TextureRect = TextureRect.new()
-	icon.texture = PlayerProgress.UPGRADE_DATA[type]["icon"]
+	icon.texture = icon_texture
 	icon.custom_minimum_size = Vector2(96, 96)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	content.add_child(icon)
 	
-	add_label(PlayerProgress.get_upgrade_name(type), 26)
-	add_label(PlayerProgress.get_upgrade_effect_text(type, 1), 20)
+	add_label(title, 26)
+	add_label(description, 20)
 	subtitle_label = add_label("", 20)
 
 # sets the subtitle of the card 
 func set_subtitle(text: String) -> void:
 	subtitle_label.text = text
 
-# adds a "buy now" or "save" buttons to card
+# adds a "buy" button to card
 func add_button(text: String) -> Button:
 	var button: Button = Button.new()
 	button.text = text
@@ -67,7 +71,7 @@ func add_label(text: String, font_size: int) -> Label:
 	content.add_child(label)
 	return label
 
-# goversn the style of the card
+# governs the style of the card
 func make_style(border_color: Color, border_width: int) -> StyleBoxFlat:
 	var style: StyleBoxFlat = StyleBoxFlat.new()
 	style.bg_color = COLOR_BG
@@ -77,7 +81,7 @@ func make_style(border_color: Color, border_width: int) -> StyleBoxFlat:
 	style.set_content_margin_all(15)
 	return style
 
-# for tracking input
+# emits selected when the card is clicked
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		selected.emit(self)

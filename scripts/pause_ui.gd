@@ -15,7 +15,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		toggle_pause()
 
 func toggle_pause() -> void:
-	if level_up_popup.visible:
+	if level_up_popup.is_showing:
 		return
 	get_tree().paused = not get_tree().paused
 	paused_label.visible = get_tree().paused

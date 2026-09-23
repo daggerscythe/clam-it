@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://3gi4typvuj7y" path="res://assets/sprites/money.png" id="15_jkv2x"]
 [ext_resource type="Script" uid="uid://dg4fy4kj2j013" path="res://scripts/pearl_counter.gd" id="17_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://bdasmoflu0vh4" path="res://assets/sprites/akoya_pearl.png" id="18_dp3eg"]
-[ext_resource type="Texture2D" uid="uid://dr17e8jj0yr8" path="res://assets/sprites/shop_icon.png" id="18_yc10j"]
+[ext_resource type="Texture2D" uid="uid://dcxstanufc2uu" path="res://assets/sprites/upgrade_icon.png" id="18_yc10j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1uo8"]
 size = Vector2(1926, 209)
@@ -143,36 +143,12 @@ process_mode = 3
 process_priority = 1000
 script = ExtResource("6_tipki")
 
-[node name="PauseButton" type="Button" parent="PauseUI" unique_id=512651317]
-offset_left = 1837.0
-offset_top = 9.000001
-offset_right = 1888.0
-offset_bottom = 58.0
-scale = Vector2(1.4, 1.4)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
-icon = ExtResource("8_85g3d")
-icon_alignment = 1
-
-[node name="PausedLabel" type="Label" parent="PauseUI" unique_id=1190496773]
-offset_left = 830.0
-offset_top = 962.0
-offset_right = 1132.0
-offset_bottom = 1052.0
-theme_override_colors/font_color = Color(0.61097354, 1.7086417e-06, 3.3691526e-07, 1)
-theme_override_font_sizes/font_size = 64
-text = "PAUSED"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="LevelUpPopup" type="Node2D" parent="PauseUI" unique_id=959149910]
 script = ExtResource("6_tefeu")
 
 [node name="DimBackground" type="ColorRect" parent="PauseUI/LevelUpPopup" unique_id=1067013452]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
 color = Color(0, 0, 0, 0.2509804)
 
 [node name="Panel" type="ColorRect" parent="PauseUI/LevelUpPopup" unique_id=1929528361]
@@ -226,6 +202,16 @@ offset_right = 1060.0
 offset_bottom = 717.0
 text = "Got It!"
 
+[node name="PauseButton" type="Button" parent="PauseUI" unique_id=512651317]
+offset_left = 1837.0
+offset_top = 9.000001
+offset_right = 1888.0
+offset_bottom = 58.0
+scale = Vector2(1.4, 1.4)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+icon = ExtResource("8_85g3d")
+icon_alignment = 1
+
 [node name="UpgradePickPopup" type="Control" parent="PauseUI" unique_id=1547949771]
 layout_mode = 3
 anchors_preset = 15
@@ -236,12 +222,9 @@ grow_vertical = 2
 script = ExtResource("10_0ld40")
 
 [node name="DimBackground" type="ColorRect" parent="PauseUI/UpgradePickPopup" unique_id=887802477]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 color = Color(0, 0, 0, 0.6)
 
 [node name="Panel" type="ColorRect" parent="PauseUI/UpgradePickPopup" unique_id=1971643941]
@@ -297,6 +280,17 @@ offset_bottom = 790.0
 theme_override_font_sizes/font_size = 25
 text = "Buy Now"
 
+[node name="PausedLabel" type="Label" parent="PauseUI" unique_id=1190496773]
+offset_left = 830.0
+offset_top = 962.0
+offset_right = 1077.0
+offset_bottom = 1050.0
+theme_override_colors/font_color = Color(0.61097354, 1.7086417e-06, 3.3691526e-07, 1)
+theme_override_font_sizes/font_size = 64
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="UpgradesMenu" type="Control" parent="PauseUI" unique_id=645403634]
 layout_mode = 3
 anchors_preset = 15
@@ -307,12 +301,9 @@ grow_vertical = 2
 script = ExtResource("11_gqmmt")
 
 [node name="DimBackground" type="ColorRect" parent="PauseUI/UpgradesMenu" unique_id=1788799310]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 color = Color(0, 0, 0, 0.6)
 
 [node name="Panel" type="ColorRect" parent="PauseUI/UpgradesMenu" unique_id=2074048114]
@@ -354,15 +345,6 @@ layout_mode = 2
 metadata/_tab_index = 1
 
 [node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Owned" unique_id=1621242712]
-layout_mode = 2
-theme_override_constants/separation = 30
-
-[node name="Supplies" type="ScrollContainer" parent="PauseUI/UpgradesMenu/Tabs" unique_id=2015426175]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 2
-
-[node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Supplies" unique_id=794464954]
 layout_mode = 2
 theme_override_constants/separation = 30
 
@@ -511,11 +493,11 @@ offset_bottom = 80.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 
-[node name="ShopButton" type="TextureButton" parent="ToolSelector" unique_id=390519272]
-offset_left = 1748.0
-offset_top = -774.0
-offset_right = 1898.0
-offset_bottom = -624.0
+[node name="UpgradesButton" type="TextureButton" parent="ToolSelector" unique_id=390519272]
+offset_left = 1775.0
+offset_top = -907.0
+offset_right = 1903.0
+offset_bottom = -779.0
 texture_normal = ExtResource("18_yc10j")
 ignore_texture_size = true
 stretch_mode = 5
