@@ -17,6 +17,8 @@
 [ext_resource type="Script" uid="uid://by85neiudne3w" path="res://scripts/upgrades_menu.gd" id="11_gqmmt"]
 [ext_resource type="StyleBox" uid="uid://b84j6as6i51ir" path="res://theme/slot_outline.tres" id="11_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://g267an6p5nor" path="res://assets/sprites/sonic_flare_icon.png" id="12_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://d2ha53low10uv" path="res://assets/sprites/check_on.png" id="12_y6deb"]
+[ext_resource type="Texture2D" uid="uid://ddciliqxv4pb4" path="res://assets/sprites/check_off.png" id="13_og1vs"]
 [ext_resource type="Texture2D" uid="uid://3gi4typvuj7y" path="res://assets/sprites/money.png" id="15_jkv2x"]
 [ext_resource type="Script" uid="uid://dg4fy4kj2j013" path="res://scripts/pearl_counter.gd" id="17_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://bdasmoflu0vh4" path="res://assets/sprites/akoya_pearl.png" id="18_dp3eg"]
@@ -472,16 +474,22 @@ theme_override_constants/separation = 20
 [node name="InfiniteFlaresToggle" type="CheckButton" parent="PauseUI/SettingsPanel/Toggles" unique_id=1712852276]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
+theme_override_icons/checked = ExtResource("12_y6deb")
+theme_override_icons/unchecked = ExtResource("13_og1vs")
 text = "Infinite Flares"
 
 [node name="InstantCleanToggle" type="CheckButton" parent="PauseUI/SettingsPanel/Toggles" unique_id=1439441199]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
+theme_override_icons/checked = ExtResource("12_y6deb")
+theme_override_icons/unchecked = ExtResource("13_og1vs")
 text = "Instant Clean"
 
 [node name="InstantChumToggle" type="CheckButton" parent="PauseUI/SettingsPanel/Toggles" unique_id=768350833]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
+theme_override_icons/checked = ExtResource("12_y6deb")
+theme_override_icons/unchecked = ExtResource("13_og1vs")
 text = "Instant Chum"
 
 [node name="BackButton" type="Button" parent="PauseUI/SettingsPanel" unique_id=89579588]
