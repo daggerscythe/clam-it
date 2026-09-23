@@ -420,11 +420,66 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Settings"
 
-[node name="BackToMenuButton" type="Button" parent="PauseUI/PauseMenu/Buttons" unique_id=1493967364]
+[node name="ExitButton" type="Button" parent="PauseUI/PauseMenu/Buttons" unique_id=1493967364]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
-text = "Back to Menu
-"
+text = "Quit Game"
+
+[node name="StatusLabel" type="Label" parent="PauseUI/PauseMenu" unique_id=1912711341]
+layout_mode = 0
+offset_left = 815.0
+offset_top = 625.0
+offset_right = 1105.0
+offset_bottom = 665.0
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsPanel" type="Control" parent="PauseUI" unique_id=1657393497]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="PauseUI/SettingsPanel" unique_id=2095726620]
+layout_mode = 0
+offset_left = 760.0
+offset_top = 340.0
+offset_right = 1160.0
+offset_bottom = 700.0
+color = Color(0.34901962, 0.34901962, 0.34901962, 0.8509804)
+
+[node name="Toggles" type="VBoxContainer" parent="PauseUI/SettingsPanel" unique_id=551955356]
+layout_mode = 0
+offset_left = 790.0
+offset_top = 380.0
+offset_right = 1130.0
+offset_bottom = 600.0
+theme_override_constants/separation = 20
+
+[node name="InfiniteFlaresToggle" type="CheckButton" parent="PauseUI/SettingsPanel/Toggles" unique_id=1712852276]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Infinite Flares"
+
+[node name="InstantCleanToggle" type="CheckButton" parent="PauseUI/SettingsPanel/Toggles" unique_id=1439441199]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Instant Clean"
+
+[node name="InstantChumToggle" type="CheckButton" parent="PauseUI/SettingsPanel/Toggles" unique_id=768350833]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Instant Chum"
+
+[node name="BackButton" type="Button" parent="PauseUI/SettingsPanel" unique_id=89579588]
+layout_mode = 0
+offset_left = 860.0
+offset_top = 620.0
+offset_right = 1060.0
+offset_bottom = 670.0
+theme_override_font_sizes/font_size = 20
+text = "Back"
 
 [node name="ToolSelector" type="Node2D" parent="." unique_id=87913514]
 process_priority = 100
