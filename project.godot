@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*uid://cj6425j8a7rf7"
 PlayerProgress="*uid://ce5qv7l1m7loc"
+GameLog="*uid://co3wl0pjeteku"
 
 [display]
 

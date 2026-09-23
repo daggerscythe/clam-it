@@ -103,13 +103,13 @@ func handle_hand_tool() -> void:
 		State.READY:
 			harvest_pearl()
 		State.GROWING:
-			print("Pearl is still growing!") #TODO: change to a screen print
+			GameLog.info("Pearl is still growing!")
 
 func handle_brush_tool() -> void:
 	if sediment_level > 0.1:
 		scrub_sediment()
 	else:
-		print("Clam is already clean!") #TODO: change to a screen print
+		GameLog.info("Clam is already clean!")
 
 func handle_chum_tool() -> void:
 	if current_state == State.GROWING:
@@ -120,13 +120,13 @@ func handle_chum_tool() -> void:
 		growth_progress = clamp(growth_progress, 0.0, growth_time)
 		Global.add_chum_heat() # fill up chum gauge
 		PlayerProgress.award_xp(PlayerProgress.CHUM_XP)
-		print("Applied Chum. Growth progress: ", snapped(growth_progress, 0.1), " / ", growth_time, "s")
+		GameLog.info("Chum Applied! Growth at %d%%" % int(growth_progress / growth_time * 100))
 		
 		# growth guard
 		if growth_progress >= growth_time:
 			mature_pearl()
 	else:
-		print("Chum can only be used on growing clams!")
+		GameLog.warn("Chum can only be used on growing clams!")
 
 func plant_dummy() -> void:
 	current_state = State.GROWING
@@ -137,7 +137,7 @@ func plant_dummy() -> void:
 	update_visuals()
 	update_sediment_visuals()
 	PlayerProgress.award_xp(PlayerProgress.PLANT_XP)
-	print("Planted pearl dummy!")
+	GameLog.info("Planted pearl dummy!")
 
 func mature_pearl() -> void:
 	current_state = State.READY
@@ -153,7 +153,6 @@ func harvest_pearl() -> void:
 	update_visuals()
 	update_sediment_visuals()
 	PlayerProgress.collect_pearl(harvested_type)
-	print("Pearl harvested!")
 
 func scrub_sediment() -> void:
 	if Global.instant_clean:
@@ -164,13 +163,13 @@ func scrub_sediment() -> void:
 	if sediment_level <= 0.0:
 		sediment_grace_timer = sediment_grace_period
 	update_sediment_visuals()
-	print("Scrubbed clam! Current sediment: ", sediment_level)
+	GameLog.info("Scrubbed clam. Sediment: %d%%" % int(sediment_level * 100))
 
 func start_attack(duration: float) -> void:
 	is_under_attack = true
 	attack_progress = 0.0
 	attack_duration = duration
-	print("A crab is attacking the clam!")
+	GameLog.warn("A crab is attacking the clam!")
 
 func end_attack_success() -> void:
 	current_state = State.EMPTY
@@ -181,11 +180,10 @@ func end_attack_success() -> void:
 	growth_bar_root.visible = false
 	update_visuals()
 	update_sediment_visuals()
-	print("Crab is destroyed the pearl! Clam is empty again :(")
+	GameLog.warn("Crab is destroyed the pearl! Clam is empty again :(")
 
 func end_attack_cancelled() -> void:
 	is_under_attack = false
-	print("Crab was scared off!")
 
 func update_visuals() -> void:
 	state_changed.emit(current_state) # let the crabs know what's up

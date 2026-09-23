@@ -237,7 +237,7 @@ func get_pearl_texture(type: int) -> Texture2D:
 
 func collect_pearl(type: int) -> void:
 	held_pearls[type] = held_pearls.get(type, 0) + 1
-	print("Collected a ", PEARL_DATA[type]["name"])
+	GameLog.good("Harvested a %s!" % PEARL_DATA[type]["name"])
 	award_xp(HARVEST_XP)
 
 func get_total_held_pearls() -> int:
@@ -247,7 +247,9 @@ func get_total_held_pearls() -> int:
 	return total
 
 func sell_all_pearls() -> float:
-	if get_total_held_pearls() <= 0:
+	var pearl_count: int = get_total_held_pearls()
+	if pearl_count <= 0:
+		GameLog.warn("No pearls to sell!")
 		return 0
 	var earned_xp: int = 0
 	var earned_money: float = 0.0
@@ -256,6 +258,7 @@ func sell_all_pearls() -> float:
 		earned_money += count * float(PEARL_DATA[type]["price"])
 		earned_xp += count * int(PEARL_DATA[type]["xp"])
 	held_pearls.clear()
+	GameLog.good("Sold %d pearl(s) for $%d and %d XP." % [pearl_count, earned_money, earned_xp])
 	add_money(earned_money)
 	award_xp(earned_xp)
 	return earned_money
@@ -286,6 +289,7 @@ func buy_flare() -> bool:
 		return false
 	add_money(-FLARE_PRICE)
 	sonar_ammo += 1
+	GameLog.good("Bought a sonic flare. You have %d." % sonar_ammo)
 	return true
 
 func get_flare_radius() -> float:
@@ -343,6 +347,7 @@ func can_buy_upgrade(type: int) -> bool:
 
 func save_upgrade_for_later(type: int) -> void:
 	pending_upgrades[type] = get_pending(type) + 1
+	GameLog.info("%s saved for later. Buy it in the Shop." % get_upgrade_name(type))
 	upgrades_changed.emit()
 
 # from_pending is true when buying from available tab
@@ -357,7 +362,7 @@ func buy_upgrade(type: int, from_pending: bool) -> bool:
 		pending_upgrades[type] = get_pending(type) - 1
 	refresh_clams() # applies growth speed pr new clam slot
 	upgrades_changed.emit()
-	print("Bought upgrade: ", get_upgrade_name(type)) # TODO: change to a log print
+	GameLog.good("Bought upgrade: %s" % get_upgrade_name(type))
 	return true
 
 func get_upgrade_name(type: int) -> String:
@@ -424,7 +429,7 @@ func save_game() -> bool:
 		push_error("Could not open save file: %s" % FileAccess.get_open_error())
 		return false
 	file.store_string(JSON.stringify(to_dict(), "\t"))
-	print("Game saved to ", ProjectSettings.globalize_path(SAVE_PATH))
+	GameLog.good("Game saved!")
 	return true
 
 func has_save() -> bool:
@@ -440,6 +445,7 @@ func load_game() -> bool:
 	from_dict(data)
 	Global.reset_run_state()
 	get_tree().paused = false
+	GameLog.good("Game loaded.")
 	get_tree().reload_current_scene() # clams pick up their saved state in _ready
 	return true
 

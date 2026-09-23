@@ -61,19 +61,19 @@ func _unhandled_input(_event: InputEvent) -> void:
 			active_tool = Tool.BRUSH
 			set_cursor_for_tool()
 		else:
-			print("Brush not unlocked yet.")
+			GameLog.warn("Brush not unlocked yet.")
 	elif Input.is_action_just_pressed("CHUM_SELECT"):
 		if PlayerProgress.is_tool_unlocked(Global.Tool.CHUM):
 			active_tool = Tool.CHUM
 			set_cursor_for_tool()
 		else:
-			print("Chum not unlocked yet.")
+			GameLog.warn("Chum not unlocked yet.")
 	elif Input.is_action_just_pressed("SONAR_SELECT"):
 		if PlayerProgress.is_tool_unlocked(Global.Tool.SONAR):
 			active_tool = Tool.SONAR
 			set_cursor_for_tool()
 		else: 
-			print("Sonar not unlocked yet.")
+			GameLog.warn("Sonic flares not unlocked yet.")
 
 func set_cursor_for_tool() -> void:
 	var texture: Texture2D

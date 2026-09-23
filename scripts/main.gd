@@ -43,7 +43,6 @@ func update_money_label(new_money: int) -> void:
 
 func fire_sonic_flare(click_position: Vector2) -> void:
 	if not PlayerProgress.use_flare():
-		print("Out of sonic flares!")
 		return
 	
 	var radius: float = PlayerProgress.get_flare_radius()
@@ -52,4 +51,3 @@ func fire_sonic_flare(click_position: Vector2) -> void:
 		if crab.global_position.distance_to(click_position) <= radius:
 			crab.scare_off()
 			scared_count += 1
-	print("Sonic flare scared off ", scared_count, " crabs! Ammo left: ", PlayerProgress.sonar_ammo)

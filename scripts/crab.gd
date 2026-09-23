@@ -98,4 +98,3 @@ func scare_off() -> void:
 		clam_spared.end_attack_cancelled()
 	else:
 		start_fleeing()
-	print("Crab scared off by sonic flare!")

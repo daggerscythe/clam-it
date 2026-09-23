@@ -21,9 +21,21 @@
 [ext_resource type="Script" uid="uid://dg4fy4kj2j013" path="res://scripts/pearl_counter.gd" id="17_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://bdasmoflu0vh4" path="res://assets/sprites/akoya_pearl.png" id="18_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://dr17e8jj0yr8" path="res://assets/sprites/shop_icon.png" id="18_yc10j"]
+[ext_resource type="Script" uid="uid://dlhxxdqdtpfwe" path="res://scripts/chat_log.gd" id="22_jscy8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1uo8"]
 size = Vector2(1926, 209)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1uo8"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0.35000002)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="Main" type="Node2D" unique_id=2329855]
 script = ExtResource("1_jyhfs")
@@ -44,7 +56,7 @@ position = Vector2(3, -0.5)
 shape = SubResource("RectangleShape2D_o1uo8")
 
 [node name="Seafloor" type="Sprite2D" parent="." unique_id=1562004449]
-position = Vector2(963, 919.49994)
+position = Vector2(966, 961)
 scale = Vector2(1, 0.82749987)
 texture = ExtResource("5_a8y0u")
 
@@ -484,6 +496,7 @@ text = "Back"
 [node name="ToolSelector" type="Node2D" parent="." unique_id=87913514]
 process_priority = 100
 position = Vector2(20, 980)
+scale = Vector2(1.2, 1.2)
 script = ExtResource("9_trceg")
 
 [node name="SelectionHighlight" type="ColorRect" parent="ToolSelector" unique_id=1935044673]
@@ -592,7 +605,8 @@ offset_bottom = 126.0
 texture = ExtResource("15_jkv2x")
 
 [node name="PearlCounter" type="Node2D" parent="." unique_id=2122397557]
-position = Vector2(1836, 980)
+position = Vector2(1818, 980)
+scale = Vector2(1.2, 1.2)
 script = ExtResource("17_dp3eg")
 
 [node name="PearlSlotOutline" type="Panel" parent="PearlCounter" unique_id=324322588]
@@ -616,3 +630,19 @@ offset_right = 64.0
 offset_bottom = 70.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
+
+[node name="ChatLog" type="PanelContainer" parent="." unique_id=976576312]
+offset_left = 1600.0
+offset_top = 380.0
+offset_right = 1900.0
+offset_bottom = 950.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o1uo8")
+script = ExtResource("22_jscy8")
+
+[node name="Messages" type="RichTextLabel" parent="ChatLog" unique_id=579332420]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+scroll_following = true

@@ -88,7 +88,7 @@ func _on_buy_pressed(type: int) -> void:
 
 func _on_buy_flare_pressed() -> void:
 	if not PlayerProgress.buy_flare():
-		print("Not enough money for a flare!") #TODO: change to on screen output
+		GameLog.warn("Not enough money for a flare!") 
 
 # deferred so a buy button isn't freed while it's emitting pressed
 func _on_progress_changed(_value = null) -> void:
