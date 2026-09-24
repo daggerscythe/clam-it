@@ -165,6 +165,10 @@ func scrub_sediment() -> void:
 	update_sediment_visuals()
 	GameLog.info("Scrubbed clam. Sediment: %d%%" % int(sediment_level * 100))
 
+# crabs go after any clam holding a pearl
+func is_crab_target() -> bool:
+	return is_unlocked and current_state != State.EMPTY
+
 func start_attack(duration: float) -> void:
 	is_under_attack = true
 	attack_progress = 0.0

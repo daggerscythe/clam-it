@@ -26,8 +26,11 @@ func _process(delta: float) -> void:
 
 # Find new target if pearl is harvested from clam prior to attack
 func _on_target_state_changed(new_state) -> void:
-	if new_state != target_clam.State.GROWING:
-		find_target()
+	if new_state != target_clam.State.EMPTY:
+		return
+	if state == CrabState.ATTACKING:
+		target_clam.end_attack_cancelled()
+	find_target()
 
 func _process_seeking(delta: float) -> void:
 	if target_clam == null:
@@ -53,25 +56,21 @@ func _process_fleeing(delta: float) -> void:
 		Global.on_crab_removed()
 		queue_free()
 
-# Path finding function to find the clam with the maturest pearl
+# Path finding function to find a random clam with a pearl
 func find_target() -> void:
 	if target_clam and target_clam.state_changed.is_connected(_on_target_state_changed):
 		target_clam.state_changed.disconnect(_on_target_state_changed)
 	
-	var best_clam: Node = null
-	var best_ratio: float = -1.0
+	var candidates: Array = []
 	for clam in get_tree().get_nodes_in_group("clams"):
-		if clam.current_state == clam.State.GROWING:
-			var ratio: float = clam.growth_progress / clam.growth_time
-			if ratio > best_ratio:
-				best_ratio = ratio
-				best_clam = clam
+		if clam.is_crab_target():
+			candidates.append(clam)
 	
-	if best_clam == null:
+	if candidates.is_empty():
 		start_fleeing()
 		return
 	
-	target_clam = best_clam
+	target_clam = candidates.pick_random()
 	target_clam.state_changed.connect(_on_target_state_changed)
 	state = CrabState.SEEKING
 

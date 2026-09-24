@@ -100,13 +100,13 @@ func get_spawn_interval() -> float:
 	return lerp(SPAWN_INTERVAL_MAX, SPAWN_INTERVAL_MIN, t)
 
 func try_spawn_crab() -> void:
-	# don't spawn if no pearls growing
-	var has_growing_clam: bool = false
+	# don't spawn if no pearls
+	var has_target: bool = false
 	for clam in get_tree().get_nodes_in_group("clams"):
-		if clam.current_state == clam.State.GROWING:
-			has_growing_clam = true
+		if clam.is_crab_target():
+			has_target = true
 			break
-	if not has_growing_clam:
+	if not has_target:
 		return
 	
 	var crab = CRAB_SCENE.instantiate()
