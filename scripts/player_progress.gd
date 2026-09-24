@@ -15,7 +15,7 @@ const SELL_XP_PER_PEARL: int = 40
 const LEVEL_PEARLS_REQUIRED: Array[int] = [1, 2, 3, 3]
 
 # BASE GROWTH TIME PER LEVEL
-const LEVEL_GROWTH_TIMES: Array[float] = [5.0, 10.0, 30.0, 30.0]
+const LEVEL_GROWTH_TIMES: Array[float] = [2.0, 10.0, 10.0, 30.0]
 
 # FREEPLAY XP CURVE
 # level N cost = BASE + STEP * N^1.5

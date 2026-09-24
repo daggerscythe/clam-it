@@ -130,7 +130,7 @@ The chum meter is shown in the top-right corner of the screen, with a white tick
 **Spawning**
 
 - Crabs can only spawn once the player is Level 4 or higher.
-- A crab spawns only when the meter is at or above the threshold, fewer than the maximum number of crabs are on screen, and at least one clam is growing.
+- A crab spawns only when the meter is at or above the threshold, fewer than the maximum number of crabs are on screen, and at least one clam holds a pearl (growing, or mature and not yet harvested).
 - The time between spawns shrinks as the meter fills: 6 seconds right at the threshold, down to 1.5 seconds with a full meter.
 - Crabs enter from the left or right edge of the screen at a random height inside the water (y between 220 and 1050).
 - The maximum number of crabs on screen starts at 4 and increases in freeplay (see [6.6](#66-crab-difficulty-scaling)).
@@ -139,18 +139,19 @@ The chum meter is shown in the top-right corner of the screen, with a white tick
 
 | Phase | What happens |
 |---|---|
-| Seeking | The crab walks at 80 px/s toward the growing clam that is closest to finishing (highest `growth_progress / growth_time`). |
-| Retargeting | If its target is harvested or matures before the crab arrives, it immediately picks a new target. If no clams are growing, it leaves. |
-| Attacking | The crab stops next to the clam. Growth and sediment freeze, and the green bar turns red and fills over 2 seconds. |
+| Seeking | The crab picks a random clam that holds a pearl, either still growing or mature and waiting to be harvested, and walks toward it at 80 px/s. |
+| Retargeting | A pearl maturing does not change the crab's target. The crab only picks a new random target when its clam becomes empty (harvested, or destroyed by another crab). If no clam holds a pearl, it leaves. |
+| Attacking | The crab stops next to the clam. Growth and sediment freeze, and the green bar turns red and fills over 2 seconds. Mature pearls can be attacked too. |
+| Saved by harvesting | If the player harvests a mature pearl while a crab is attacking it, the pearl is kept, the attack is cancelled, and the crab retargets. |
 | Success | When the red bar fills, the pearl and any sediment are destroyed, the clam becomes empty, and the crab flees. |
 | Fleeing | The crab walks off screen at double speed and is removed, which frees a spawn slot. |
 
-Several crabs can target the same clam. When the first one destroys the pearl, the others retarget.
+Because targets are random, crabs tend to spread across the pond, but several crabs can still end up on the same clam. When the first one destroys the pearl, the others retarget. Leaving finished pearls unharvested is risky: they keep attracting crabs until they are collected.
 
 ### 4.5 Sonic Flares
 
 - Unlocked at Level 4. With the Sonar tool selected, clicking anywhere in the water fires a flare at that point.
-- Every crab within the flare radius flees immediately. A crab that was attacking lets go, and the clam resumes growing from where it was.
+- Every crab within the flare radius flees immediately. A crab that was attacking lets go: a growing pearl resumes from where it was, and a mature pearl stays ready to harvest.
 - **Radius:** 250 px at the start, raised by the Bigger Flare upgrade up to 500 px.
 - **Animation:** a 5-frame shockwave (`sonic_flare_animation.png`, each frame 164 x 164) plays at the click point. It is scaled so that its outermost ring matches the real radius, which lets the player see exactly how far the flare reaches. The animation expands over 0.4 seconds and then fades out over 0.25 seconds.
 - **Ammo:**
@@ -181,13 +182,15 @@ Several crabs can target the same clam. When the first one destroys the pearl, t
 
 | Level | Unlocks | Active clams | Growth time |
 |---|---|---|---|
-| 1 | Hand tool | 1 | 5 s |
+| 1 | Hand tool | 1 | 2 s |
 | 2 | Scrub Brush, sediment starts building up | 2 | 10 s |
-| 3 | Chum | 3 | 30 s |
+| 3 | Chum | 3 | 10 s |
 | 4 | Sonic Flare, crabs, +5 flares | 3 | 30 s |
 | 5 | Freeplay begins (see [Stage 2](#6-stage-2-freeplay)) | 3 | 30 s |
 
-Each unlock pauses the game with a popup that shows the tool's icon, how to use it, and what it does.
+Before Level 1 begins, a text-only welcome popup explains the basics: planting, waiting for growth, harvesting, and selling at the dock. After that, each unlock pauses the game with a popup that shows the tool's icon, how to use it, and what it does.
+
+The very short 2 second growth time at Level 1 lets a new player complete their first pearl cycle almost immediately.
 
 ### 5.2 XP in Stage 1
 
@@ -304,12 +307,12 @@ There are six clams, all placed in the scene ahead of time. The first three unlo
 
 | Clam | Position | Unlocks by |
 |---|---|---|
-| Clam | (827, 866) | Level 1 |
-| Clam2 | (427, 872) | Level 2 |
-| Clam3 | (1499, 817) | Level 3 |
-| Clam4 | (1213, 912) | 1st New Clam Slot purchase |
-| Clam5 | (1670, 948) | 2nd New Clam Slot purchase |
-| Clam6 | (161, 880) | 3rd New Clam Slot purchase |
+| Clam | (788, 808) | Level 1 |
+| Clam2 | (509, 905) | Level 2 |
+| Clam3 | (1344, 866) | Level 3 |
+| Clam4 | (1043, 955) | 1st New Clam Slot purchase |
+| Clam5 | (1670, 902) | 2nd New Clam Slot purchase |
+| Clam6 | (161, 868) | 3rd New Clam Slot purchase |
 
 Each clam has two unlock settings: `unlock_level` (the player's level must be at least this) and `purchase_slot` (0 means level only; N means the Nth clam slot purchase). A clam is unlocked only when both conditions are met.
 
@@ -377,6 +380,7 @@ With the current caps there are 3 + 12 + 5 + 6 = 26 upgrade picks. With one pick
 
 | Popup | Contents |
 |---|---|
+| Welcome | Text-only introduction to planting, harvesting and selling, with a "Let's Go!" button. Shown once per launch and not shown again after loading a save |
 | Level-up (tool or pearl) | Title, icon, how to use it, what it does, "Got It!" button |
 | Upgrade pick | Three upgrade cards, "Save for Later" and "Buy Now" buttons, and a hint line |
 
@@ -392,7 +396,7 @@ Opened with the shop button in the top-right corner. It becomes available at Lev
 | Owned | One card per upgrade type owned, showing the number purchased and the total effect (for example "Growth time -6s total") | Level 5 |
 | Supplies | A sonic flare card showing current ammo, the $30 price and a Buy button | Level 4 |
 
-The bottom of the shop shows the player's current money. Buy buttons are disabled when the player can't afford the item.
+Each tab wraps its card row in a margin container, so the cards sit 25 px away from the edges of the tab. The bottom of the shop shows the player's current money. Buy buttons are disabled when the player can't afford the item.
 
 ### 7.6 Pause Menu and Settings
 
@@ -423,7 +427,7 @@ Settings stay the same after loading a save but are not written to the save file
   - Pearls held, by type
   - Owned upgrade stacks and saved-for-later picks
   - Each clam's state, growth progress, sediment level and rolled pearl type
-- **Not saved:** crabs, the chum meter, and settings. These reset when a save is loaded.
+- **Not saved:** crabs, the chum meter, settings, and whether the welcome popup has been seen. Crabs and the chum meter reset when a save is loaded; settings and the welcome flag carry over for the rest of the session.
 - **How loading works:**
   1. `PlayerProgress` restores its state from the file.
   2. The chum meter, crab counter and spawn timer are reset.
@@ -441,14 +445,14 @@ Settings stay the same after loading a save but are not written to the save file
 | Autoload | Responsibility |
 |---|---|
 | `Global` | Active tool and cursor, tool hotkeys, chum meter, crab spawning, settings toggles |
-| `PlayerProgress` | Level and XP, money, flares, pearl data and rolls, upgrade data and effects, clam unlocks, crab scaling, max level, save and load |
+| `PlayerProgress` | Level and XP, money, flares, pearl data and rolls, upgrade data and effects, clam unlocks, crab scaling, max level, save and load, welcome popup flag |
 | `GameLog` | Stores chat log history and sends each new message to the chat log UI |
 
 ### 9.2 Scenes
 
 | Scene | Contents |
 |---|---|
-| `main.tscn` | Background, surface dock, six clams, HUD, toolbar, chat log, pearl counter, and the `PauseUI` layer with all popups and menus |
+| `main.tscn` | Background, surface dock, six clams, HUD, toolbar, chat log, pearl counter, and the `PauseUI` layer with the welcome popup, level-up popups, shop and menus |
 | `clam.tscn` | Area2D with the clam, pearl and sediment sprites, a collision shape, and the growth bar. Belongs to the `clams` group |
 | `crab.tscn` | Area2D with the crab sprite and collision shape. Joins the `crabs` group |
 | `floating_text.tscn` | Label that rises and fades out (used for sale results) |
@@ -460,19 +464,20 @@ Settings stay the same after loading a save but are not written to the save file
 | `global.gd` | Tools, chum meter, crab spawning, settings |
 | `player_progress.gd` | All progression data and rules, save and load |
 | `game_log.gd` | Chat log messages and their colors |
-| `clam.gd` | Clam states, growth, sediment, tool handling, maturing, crab attacks, saving each clam |
-| `crab.gd` | Crab seeking, retargeting, attacking and fleeing |
+| `clam.gd` | Clam states, growth, sediment, tool handling, maturing, crab attacks, whether the clam is a crab target, saving each clam |
+| `crab.gd` | Random target selection, retargeting, attacking and fleeing |
 | `main.gd` | Chum meter bar, XP bar, money label, firing flares |
 | `flare_effect.gd` | Flare animation scaled to the flare radius |
 | `tool_selector.gd` | Toolbar slots, ammo counter, shop button |
 | `pearl_counter.gd` | Pearl counter slots, one per type |
 | `chat_log.gd` | Chat log panel display |
 | `surface_dock.gd` | Selling at the dock and the floating text |
+| `intro_popup.gd` | Welcome popup shown once per launch |
 | `level_up_popup.gd` | Popup queue for tool, pearl and upgrade popups |
 | `upgrade_pick_popup.gd` | Choosing 1 of 3 upgrades |
 | `upgrade_card.gd` | Reusable card built in code (`class_name UpgradeCard`) |
 | `upgrades_menu.gd` | Shop tabs: Available, Owned, Supplies |
-| `pause_ui.gd` | Pause menu, save and load, settings, exit |
+| `pause_ui.gd` | Pause menu, save and load, settings, exit; blocks pausing while the welcome or level-up popups are open |
 
 ### 9.4 Communication Between Systems
 
@@ -480,7 +485,7 @@ Settings stay the same after loading a save but are not written to the save file
 
 | Signal | Emitted by | Listened to by |
 |---|---|---|
-| `state_changed` | Clam | Crabs, to retarget when their target is harvested, matures or is destroyed |
+| `state_changed` | Clam | Crabs, to retarget when their target clam becomes empty (harvested or destroyed) |
 | `level_changed` | PlayerProgress | Popups, toolbar, pearl counter |
 | `money_changed` | PlayerProgress | Money label, shop |
 | `upgrades_changed` | PlayerProgress | Shop |
@@ -520,7 +525,7 @@ Settings stay the same after loading a save but are not written to the save file
 | XP | Plant / Harvest / Chum / Sell Classic | 2 / 3 / 2 / 40 | player_progress.gd |
 | XP | `LEVEL_PEARLS_REQUIRED` | [1, 2, 3, 3] | player_progress.gd |
 | XP | `FREEPLAY_BASE_XP` / `FREEPLAY_STEP` | 300 / 60 | player_progress.gd |
-| Growth | `LEVEL_GROWTH_TIMES` | [5, 10, 30, 30] s | player_progress.gd |
+| Growth | `LEVEL_GROWTH_TIMES` | [2, 10, 10, 30] s | player_progress.gd |
 | Growth | `MIN_GROWTH_TIME` | 5 s | player_progress.gd |
 | Flares | `FLARES_ON_UNLOCK` / `FLARES_PER_LEVEL` | 5 / 1 | player_progress.gd |
 | Flares | `FLARE_PRICE` | $30 | player_progress.gd |
