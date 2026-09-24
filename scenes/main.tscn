@@ -57,6 +57,14 @@ script = ExtResource("4_tbgi4")
 position = Vector2(3, -0.5)
 shape = SubResource("RectangleShape2D_o1uo8")
 
+[node name="SellLabel" type="Label" parent="SurfaceDock" unique_id=1539176372]
+offset_left = -147.0
+offset_top = -83.0
+offset_right = 143.0
+offset_bottom = -26.0
+theme_override_font_sizes/font_size = 40
+text = "[ SELL HERE ]"
+
 [node name="Seafloor" type="Sprite2D" parent="." unique_id=1562004449]
 position = Vector2(961.5, 964)
 scale = Vector2(1.0098958, 0.82749987)
