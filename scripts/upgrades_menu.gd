@@ -6,9 +6,9 @@ const TAB_OWNED: int = 1
 const TAB_SUPPLIES: int = 2
 
 @onready var tabs: TabContainer = $Tabs
-@onready var available_cards: HBoxContainer = $Tabs/Available/Cards
-@onready var owned_cards: HBoxContainer = $Tabs/Owned/Cards
-@onready var supply_cards: HBoxContainer = $Tabs/Supplies/Cards
+@onready var available_cards: HBoxContainer = $Tabs/Available/Padding/Cards
+@onready var owned_cards: HBoxContainer = $Tabs/Owned/Padding/Cards
+@onready var supply_cards: HBoxContainer = $Tabs/Supplies/Padding/Cards
 @onready var status_label: Label = $StatusLabel
 @onready var close_button: Button = $CloseButton
 

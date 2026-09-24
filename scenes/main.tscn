@@ -11,14 +11,15 @@
 [ext_resource type="Texture2D" uid="uid://bcktqso6rhshe" path="res://assets/sprites/pause.png" id="8_85g3d"]
 [ext_resource type="Texture2D" uid="uid://ekhwwmuq1s2y" path="res://assets/sprites/hand.png" id="9_eb6dy"]
 [ext_resource type="Script" uid="uid://yrgm3wr0x2h6" path="res://scripts/tool_selector.gd" id="9_trceg"]
+[ext_resource type="Script" uid="uid://vxkxjdso5ni" path="res://scripts/intro_popup.gd" id="9_y6deb"]
 [ext_resource type="Script" uid="uid://drwik8ob3sjkl" path="res://scripts/upgrade_pick_popup.gd" id="10_0ld40"]
 [ext_resource type="Texture2D" uid="uid://cesn33o6lf0w8" path="res://assets/sprites/brush.png" id="10_trceg"]
 [ext_resource type="Texture2D" uid="uid://cmoags1oi0k0j" path="res://assets/sprites/chum.png" id="11_a8y0u"]
 [ext_resource type="Script" uid="uid://by85neiudne3w" path="res://scripts/upgrades_menu.gd" id="11_gqmmt"]
 [ext_resource type="StyleBox" uid="uid://b84j6as6i51ir" path="res://theme/slot_outline.tres" id="11_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://g267an6p5nor" path="res://assets/sprites/sonic_flare_icon.png" id="12_jkv2x"]
-[ext_resource type="Texture2D" uid="uid://d2ha53low10uv" path="res://assets/sprites/check_on.png" id="12_y6deb"]
-[ext_resource type="Texture2D" uid="uid://ddciliqxv4pb4" path="res://assets/sprites/check_off.png" id="13_og1vs"]
+[ext_resource type="Texture2D" uid="uid://c8tf7hl52ptc6" path="res://assets/sprites/check_on.png" id="12_y6deb"]
+[ext_resource type="Texture2D" uid="uid://djiiicglmue6j" path="res://assets/sprites/check_off.png" id="13_og1vs"]
 [ext_resource type="Texture2D" uid="uid://3gi4typvuj7y" path="res://assets/sprites/money.png" id="15_jkv2x"]
 [ext_resource type="Script" uid="uid://dg4fy4kj2j013" path="res://scripts/pearl_counter.gd" id="17_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://dr17e8jj0yr8" path="res://assets/sprites/shop_icon.png" id="18_yc10j"]
@@ -62,28 +63,28 @@ scale = Vector2(1.0098958, 0.82749987)
 texture = ExtResource("5_a8y0u")
 
 [node name="Clam" parent="." unique_id=1001873804 instance=ExtResource("3_tbgi4")]
-position = Vector2(827, 866)
+position = Vector2(788.00006, 808)
 
 [node name="Clam2" parent="." unique_id=1591416584 instance=ExtResource("3_tbgi4")]
-position = Vector2(427, 872)
+position = Vector2(509, 905)
 unlock_level = 2
 
 [node name="Clam3" parent="." unique_id=165787267 instance=ExtResource("3_tbgi4")]
-position = Vector2(1499, 817)
+position = Vector2(1344.0001, 866)
 unlock_level = 3
 
 [node name="Clam4" parent="." unique_id=1818274013 instance=ExtResource("3_tbgi4")]
-position = Vector2(1213, 912)
+position = Vector2(1043.0001, 955.00006)
 unlock_level = 5
 purchase_slot = 1
 
 [node name="Clam5" parent="." unique_id=968433051 instance=ExtResource("3_tbgi4")]
-position = Vector2(1670, 948)
+position = Vector2(1670, 902)
 unlock_level = 5
 purchase_slot = 2
 
 [node name="Clam6" parent="." unique_id=913036741 instance=ExtResource("3_tbgi4")]
-position = Vector2(161, 880)
+position = Vector2(161, 868)
 unlock_level = 5
 purchase_slot = 3
 
@@ -177,6 +178,61 @@ text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="IntroPopup" type="Control" parent="PauseUI" unique_id=714196453]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_y6deb")
+
+[node name="DimBackground" type="ColorRect" parent="PauseUI/IntroPopup" unique_id=1632868679]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="ColorRect" parent="PauseUI/IntroPopup" unique_id=807455621]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 110.0
+offset_right = 1460.0
+offset_bottom = 960.0
+color = Color(0.8980392, 0.79607844, 0.08627451, 1)
+
+[node name="TitleLabel" type="Label" parent="PauseUI/IntroPopup" unique_id=1806217407]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 130.0
+offset_right = 1460.0
+offset_bottom = 190.0
+theme_override_font_sizes/font_size = 42
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BodyLabel" type="Label" parent="PauseUI/IntroPopup" unique_id=1725159464]
+custom_minimum_size = Vector2(900, 390)
+layout_mode = 0
+offset_left = 510.0
+offset_top = 210.0
+offset_right = 1410.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 3
+
+[node name="StartButton" type="Button" parent="PauseUI/IntroPopup" unique_id=75324227]
+layout_mode = 0
+offset_left = 840.0
+offset_top = 860.0
+offset_right = 1080.0
+offset_bottom = 920.0
+theme_override_font_sizes/font_size = 25
+text = "Let's Go!"
+
 [node name="LevelUpPopup" type="Node2D" parent="PauseUI" unique_id=959149910]
 script = ExtResource("6_tefeu")
 
@@ -189,54 +245,57 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.2509804)
 
 [node name="Panel" type="ColorRect" parent="PauseUI/LevelUpPopup" unique_id=1929528361]
-offset_left = 660.0
-offset_top = 340.0
-offset_right = 1260.0
-offset_bottom = 740.0
+offset_left = 590.0
+offset_top = 290.0
+offset_right = 1290.0
+offset_bottom = 790.0
 mouse_filter = 2
 color = Color(0.8980392, 0.79607844, 0.08627451, 1)
 
 [node name="TitleLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=1367140280]
-offset_left = 686.0
-offset_top = 364.0
-offset_right = 1235.0
-offset_bottom = 417.0
+offset_left = 670.0
+offset_top = 320.0
+offset_right = 1219.0
+offset_bottom = 380.0
 theme_override_font_sizes/font_size = 42
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ToolImage" type="TextureRect" parent="PauseUI/LevelUpPopup" unique_id=732978160]
-offset_left = 884.0
-offset_top = 407.0
-offset_right = 1048.0
-offset_bottom = 565.0
+offset_left = 880.0
+offset_top = 380.0
+offset_right = 1030.0
+offset_bottom = 530.0
 stretch_mode = 5
 
-[node name="HowToUseLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=2019490052]
-custom_minimum_size = Vector2(560, 0)
-offset_left = 680.0
-offset_top = 630.0
-offset_right = 1240.0
-offset_bottom = 670.0
+[node name="WhatItDoesLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=1783021982]
+custom_minimum_size = Vector2(559, 0)
+offset_left = 590.0
+offset_top = 540.0
+offset_right = 1290.0
+offset_bottom = 580.0
+theme_override_font_sizes/font_size = 25
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="WhatItDoesLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=1783021982]
-custom_minimum_size = Vector2(559, 0)
-offset_left = 679.0
-offset_top = 582.0
-offset_right = 1238.0
-offset_bottom = 622.0
+[node name="HowToUseLabel" type="Label" parent="PauseUI/LevelUpPopup" unique_id=2019490052]
+custom_minimum_size = Vector2(560, 0)
+offset_left = 670.0
+offset_top = 650.0
+offset_right = 1230.0
+offset_bottom = 690.0
+theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="GotItButton" type="Button" parent="PauseUI/LevelUpPopup" unique_id=848825902]
-offset_left = 860.0
-offset_top = 677.0
-offset_right = 1060.0
-offset_bottom = 717.0
+offset_left = 840.0
+offset_top = 730.0
+offset_right = 1040.0
+offset_bottom = 774.0
+theme_override_font_sizes/font_size = 25
 text = "Got It!"
 
 [node name="UpgradePickPopup" type="Control" parent="PauseUI" unique_id=1547949771]
@@ -351,13 +410,24 @@ offset_left = 300.0
 offset_top = 240.0
 offset_right = 1620.0
 offset_bottom = 800.0
+theme_override_constants/side_margin = 30
+theme_override_constants/tab_separation = 30
+theme_override_constants/icon_separation = 10
+theme_override_font_sizes/font_size = 30
 current_tab = 0
 
 [node name="Available" type="ScrollContainer" parent="PauseUI/UpgradesMenu/Tabs" unique_id=2020807069]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Available" unique_id=2079737051]
+[node name="Padding" type="MarginContainer" parent="PauseUI/UpgradesMenu/Tabs/Available" unique_id=1349902403]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Available/Padding" unique_id=2079737051]
 layout_mode = 2
 theme_override_constants/separation = 30
 
@@ -366,7 +436,14 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Owned" unique_id=1621242712]
+[node name="Padding" type="MarginContainer" parent="PauseUI/UpgradesMenu/Tabs/Owned" unique_id=1778953688]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Owned/Padding" unique_id=1621242712]
 layout_mode = 2
 theme_override_constants/separation = 30
 
@@ -375,7 +452,14 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Supplies" unique_id=794464954]
+[node name="Padding" type="MarginContainer" parent="PauseUI/UpgradesMenu/Tabs/Supplies" unique_id=18589059]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Cards" type="HBoxContainer" parent="PauseUI/UpgradesMenu/Tabs/Supplies/Padding" unique_id=794464954]
 layout_mode = 2
 theme_override_constants/separation = 30
 
@@ -393,7 +477,7 @@ offset_left = 1440.0
 offset_top = 820.0
 offset_right = 1620.0
 offset_bottom = 880.0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 25
 text = "Close"
 
 [node name="PauseMenu" type="Control" parent="PauseUI" unique_id=181644409]
@@ -497,7 +581,7 @@ offset_left = 860.0
 offset_top = 620.0
 offset_right = 1060.0
 offset_bottom = 670.0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 25
 text = "Back"
 
 [node name="ToolSelector" type="Node2D" parent="." unique_id=87913514]
@@ -617,10 +701,10 @@ scale = Vector2(1.2, 1.2)
 script = ExtResource("17_dp3eg")
 
 [node name="ChatLog" type="PanelContainer" parent="." unique_id=976576312]
-offset_left = 1600.0
+offset_left = 1450.0
 offset_top = 380.0
 offset_right = 1900.0
-offset_bottom = 680.0
+offset_bottom = 780.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o1uo8")
 script = ExtResource("22_jscy8")
@@ -628,6 +712,6 @@ script = ExtResource("22_jscy8")
 [node name="Messages" type="RichTextLabel" parent="ChatLog" unique_id=579332420]
 layout_mode = 2
 mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
 scroll_following = true

@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var paused_label: Label = $PausedLabel
 @onready var pause_button: Button = $PauseButton
+@onready var intro_popup: Control = $IntroPopup
 @onready var level_up_popup: Node2D = $LevelUpPopup
 @onready var upgrades_menu: Control = $UpgradesMenu
 @onready var pause_menu: Control = $PauseMenu
@@ -45,7 +46,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			toggle_pause()
 
 func toggle_pause() -> void:
-	if level_up_popup.is_showing:
+	if level_up_popup.is_showing or intro_popup.visible:
 		return
 	if upgrades_menu.visible:
 		upgrades_menu.close()

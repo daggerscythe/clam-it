@@ -145,6 +145,7 @@ var sonar_ammo: int = 0
 var held_pearls: Dictionary = {}
 var owned_upgrades: Dictionary = {}
 var pending_upgrades: Dictionary = {}
+var has_seen_intro: bool = false # runtime only
 
 # computer at startup
 var level_xp_thresholds: Array[int] = []
