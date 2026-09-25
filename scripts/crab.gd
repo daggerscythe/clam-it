@@ -3,6 +3,8 @@ extends Area2D
 enum CrabState { SEEKING, ATTACKING, FLEEING }
 var state: CrabState = CrabState.SEEKING
 
+@onready var sprite: AnimatedSprite2D = $CrabSprite
+
 # CRAB CONSTANTS
 const SPEED: float = 80.0
 const FLEE_SPEED_MULTIPLIER: float = 2.0
@@ -73,11 +75,13 @@ func find_target() -> void:
 	target_clam = candidates.pick_random()
 	target_clam.state_changed.connect(_on_target_state_changed)
 	state = CrabState.SEEKING
+	sprite.play("walk")
 
 func start_attacking() -> void:
 	state = CrabState.ATTACKING
 	attack_timer = 0.0
 	target_clam.start_attack(Global.CRAB_ATTACK_DURATION)
+	sprite.play("idle")
 
 func start_fleeing() -> void:
 	state = CrabState.FLEEING
@@ -87,6 +91,7 @@ func start_fleeing() -> void:
 			target_clam.state_changed.disconnect(_on_target_state_changed)
 	if flee_direction == Vector2.ZERO:
 		flee_direction = Vector2.RIGHT if global_position.x > 960 else Vector2.LEFT
+	sprite.play("walk")
 
 func scare_off() -> void:
 	if state == CrabState.FLEEING:
@@ -97,3 +102,6 @@ func scare_off() -> void:
 		clam_spared.end_attack_cancelled()
 	else:
 		start_fleeing()
+
+func is_walking() -> bool:
+	return state != CrabState.ATTACKING
