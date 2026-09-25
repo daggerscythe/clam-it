@@ -17,6 +17,3 @@ mono_crash.*.json
 # System/Editor files
 .DS_Store
 Thumbs.db
-
-# build
-build/

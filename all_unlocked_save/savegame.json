@@ -1,0 +1,54 @@
+{
+	"clams": {
+		"Clam": {
+			"growth_progress": 0.0,
+			"pearl_type": -1,
+			"sediment_level": 0.0,
+			"state": 0
+		},
+		"Clam2": {
+			"growth_progress": 0.0,
+			"pearl_type": -1,
+			"sediment_level": 0.0,
+			"state": 0
+		},
+		"Clam3": {
+			"growth_progress": 0.0,
+			"pearl_type": -1,
+			"sediment_level": 0.0,
+			"state": 0
+		},
+		"Clam4": {
+			"growth_progress": 0.0,
+			"pearl_type": -1,
+			"sediment_level": 0.0,
+			"state": 0
+		},
+		"Clam5": {
+			"growth_progress": 0.0,
+			"pearl_type": -1,
+			"sediment_level": 0.0,
+			"state": 0
+		},
+		"Clam6": {
+			"growth_progress": 0.0,
+			"pearl_type": -1,
+			"sediment_level": 0.0,
+			"state": 0
+		}
+	},
+	"held_pearls": {},
+	"level": 16,
+	"money": 9908.0,
+	"owned_upgrades": {
+		"0": 3,
+		"2": 5,
+		"3": 4
+	},
+	"pending_upgrades": {
+		"2": 0
+	},
+	"sonar_ammo": 8,
+	"version": 1,
+	"xp": 16955
+}
