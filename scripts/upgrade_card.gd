@@ -84,4 +84,5 @@ func make_style(border_color: Color, border_width: int) -> StyleBoxFlat:
 # emits selected when the card is clicked
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		Sfx.play_select()
 		selected.emit(self)

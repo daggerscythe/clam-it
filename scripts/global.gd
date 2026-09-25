@@ -56,22 +56,26 @@ func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("HAND_SELECT"):
 		active_tool = Tool.HAND
 		set_cursor_for_tool()
+		Sfx.play_select()
 	elif Input.is_action_just_pressed("BRUSH_SELECT"):
 		if PlayerProgress.is_tool_unlocked(Global.Tool.BRUSH):
 			active_tool = Tool.BRUSH
 			set_cursor_for_tool()
+			Sfx.play_select()
 		else:
 			GameLog.warn("Brush not unlocked yet.")
 	elif Input.is_action_just_pressed("CHUM_SELECT"):
 		if PlayerProgress.is_tool_unlocked(Global.Tool.CHUM):
 			active_tool = Tool.CHUM
 			set_cursor_for_tool()
+			Sfx.play_select()
 		else:
 			GameLog.warn("Chum not unlocked yet.")
 	elif Input.is_action_just_pressed("SONAR_SELECT"):
 		if PlayerProgress.is_tool_unlocked(Global.Tool.SONAR):
 			active_tool = Tool.SONAR
 			set_cursor_for_tool()
+			Sfx.play_select()
 		else: 
 			GameLog.warn("Sonic flares not unlocked yet.")
 

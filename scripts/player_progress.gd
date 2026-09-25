@@ -248,6 +248,7 @@ func get_pearl_texture(type: int) -> Texture2D:
 func collect_pearl(type: int) -> void:
 	held_pearls[type] = held_pearls.get(type, 0) + 1
 	GameLog.good("Harvested a %s!" % PEARL_DATA[type]["name"])
+	Sfx.play_collect()
 	award_xp(HARVEST_XP)
 
 func get_total_held_pearls() -> int:

@@ -185,6 +185,7 @@ func end_attack_success() -> void:
 	update_visuals()
 	update_sediment_visuals()
 	GameLog.warn("Crab is destroyed the pearl! Clam is empty again :(")
+	Sfx.play_destroy()
 
 func end_attack_cancelled() -> void:
 	is_under_attack = false

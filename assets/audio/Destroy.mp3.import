@@ -3,17 +3,17 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://ce5g5uktf2g0o"
-path="res://.godot/imported/Destroy.mp3-bdc37324ca28e7b62536553da96a2321.mp3str"
+path="res://.godot/imported/destroy.mp3-1d178e4f25ac4bc184eb745b9e88377c.mp3str"
 
 [deps]
 
-source_file="res://assets/audio/Destroy.mp3"
-dest_files=["res://.godot/imported/Destroy.mp3-bdc37324ca28e7b62536553da96a2321.mp3str"]
+source_file="res://assets/audio/destroy.mp3"
+dest_files=["res://.godot/imported/destroy.mp3-1d178e4f25ac4bc184eb745b9e88377c.mp3str"]
 
 [params]
 
 loop=false
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4
