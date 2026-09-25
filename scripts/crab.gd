@@ -6,7 +6,7 @@ var state: CrabState = CrabState.SEEKING
 @onready var sprite: AnimatedSprite2D = $CrabSprite
 
 # CRAB CONSTANTS
-const SPEED: float = 80.0
+const SPEED: float = 100.0
 const FLEE_SPEED_MULTIPLIER: float = 2.0
 const STOP_DISTANCE: float = 55.0
 

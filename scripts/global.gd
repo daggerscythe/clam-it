@@ -12,8 +12,8 @@ const CURSOR_SONAR: Texture2D = preload("res://assets/sprites/sonic_flare_icon.p
 const CHUM_METER_MAX: float = 10.0
 const CRAB_SPAWN_THRESHOLD: float = 4.0 # BASE, raisable by upgrades
 const CRAB_ATTACK_DURATION: float = 2.0
-const CHUM_PER_USE: float = 2.0
-const METER_DECAY_RATE: float = 0.2
+const CHUM_PER_USE: float = 0.5
+const METER_DECAY_RATE: float = 0.08
 
 # SPAWN AREA BOUNDS
 const WATER_TOP_Y: float = 220.0

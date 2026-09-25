@@ -69,7 +69,7 @@ Level up → unlock pearls and upgrades → plant again
 | Hand | `1` or `H` | Level 1 | Plants a dummy in an empty clam, harvests a ready pearl, sells pearls at the dock |
 | Brush | `2` or `B` | Level 2 | Scrubs sediment off a growing clam |
 | Chum | `3` or `C` | Level 3 | Instantly advances a growing pearl |
-| Sonic Flare | `4` or `F` | Level 4 | Scares off every crab within the flare radius around the click |
+| Sonic Flare | `4` or `F` | Level 4 | Scares off every crab within the sonic flare radius around the click |
 | Pause | `Esc` or the pause button | Always | Opens the pause menu; also closes the shop or the settings panel |
 
 The mouse cursor changes to the selected tool's icon, and the toolbar in the bottom-left corner highlights the active tool. Selecting a tool that has not been unlocked yet posts a warning in the chat log.
@@ -111,7 +111,7 @@ Sediment starts building up once the player reaches Level 2.
 
 - Chum works only on `GROWING` clams. Using it on an empty or ready clam posts a warning.
 - Each click instantly adds **3 seconds** of growth progress. It is a one-time jump, not a temporary speed boost.
-- Each click also adds **2 points** to the chum meter and awards **2 XP**.
+- Each click also adds **0.5** to the chum meter and awards **2 XP**. It takes about 8 to 10 chum clicks in a row before crabs start spawning.
 - If the jump completes the pearl, the clam matures immediately.
 
 ### 4.4 The Chum Meter and Crabs
@@ -123,9 +123,9 @@ The chum meter is shown in the top-right corner of the screen, with a white tick
 | Property | Value |
 |---|---|
 | Range | 0 to 10 |
-| Added per chum click | 2 |
-| Decay | 0.2 per second, always |
-| Base crab threshold | 4 (raised by the Crab Tolerance upgrade, see [6.4](#64-upgrades)) |
+| Added per chum click | 0.5 |
+| Decay | 0.08 per second, always (a full meter drains in about 2 minutes) |
+| Base crab threshold | 4, which takes 8 quick chum clicks (about 10 when spread out, because of decay). Raised by the Crab Tolerance upgrade, see [6.4](#64-upgrades) |
 
 **Spawning**
 
@@ -139,7 +139,7 @@ The chum meter is shown in the top-right corner of the screen, with a white tick
 
 | Phase | What happens |
 |---|---|
-| Seeking | The crab picks a random clam that holds a pearl, either still growing or mature and waiting to be harvested, and walks toward it at 80 px/s. |
+| Seeking | The crab picks a random clam that holds a pearl, either still growing or mature and waiting to be harvested, and walks toward it at 100 px/s. |
 | Retargeting | A pearl maturing does not change the crab's target. The crab only picks a new random target when its clam becomes empty (harvested, or destroyed by another crab). If no clam holds a pearl, it leaves. |
 | Attacking | The crab stops next to the clam. Growth and sediment freeze, and the green bar turns red and fills over 2 seconds. Mature pearls can be attacked too. |
 | Saved by harvesting | If the player harvests a mature pearl while a crab is attacking it, the pearl is kept, the attack is cancelled, and the crab retargets. |
@@ -150,10 +150,10 @@ Because targets are random, crabs tend to spread across the pond, but several cr
 
 ### 4.5 Sonic Flares
 
-- Unlocked at Level 4. With the Sonar tool selected, clicking anywhere in the water fires a flare at that point.
-- Every crab within the flare radius flees immediately. A crab that was attacking lets go: a growing pearl resumes from where it was, and a mature pearl stays ready to harvest.
-- **Radius:** 250 px at the start, raised by the Bigger Flare upgrade up to 500 px.
-- **Animation:** a 5-frame shockwave (`sonic_flare_animation.png`, each frame 164 x 164) plays at the click point. It is scaled so that its outermost ring matches the real radius, which lets the player see exactly how far the flare reaches. The animation expands over 0.4 seconds and then fades out over 0.25 seconds.
+- Unlocked at Level 4. With the Sonar tool selected, clicking anywhere in the water fires a sonic flare at that point.
+- Every crab within the sonic flare radius flees immediately. A crab that was attacking lets go: a growing pearl resumes from where it was, and a mature pearl stays ready to harvest.
+- **Radius:** 250 px at the start, raised by the Bigger Sonic Flare upgrade up to 500 px.
+- **Animation:** a 5-frame shockwave (`sonic_flare_animation.png`, each frame 164 x 164) plays at the click point. It is scaled so that its outermost ring matches the real radius, which lets the player see exactly how far the sonic flare reaches. The animation expands over 0.4 seconds and then fades out over 0.25 seconds.
 - **Ammo:**
 
 | Source | Amount |
@@ -161,7 +161,7 @@ Because targets are random, crabs tend to spread across the pond, but several cr
 | Starting ammo | 0 |
 | Reaching Level 4 | +5 |
 | Every level-up after Level 4 | +1 |
-| Buying in the shop | $30 each, any time after Level 4 |
+| Buying in the shop | $100 each, any time after Level 4 |
 
 - The ammo count is shown on the Sonar slot of the toolbar. Firing with no ammo posts a warning in the chat log.
 
@@ -185,7 +185,7 @@ Because targets are random, crabs tend to spread across the pond, but several cr
 | 1 | Hand tool | 1 | 2 s |
 | 2 | Scrub Brush, sediment starts building up | 2 | 10 s |
 | 3 | Chum | 3 | 10 s |
-| 4 | Sonic Flare, crabs, +5 flares | 3 | 30 s |
+| 4 | Sonic Flare, crabs, +5 sonic flares | 3 | 30 s |
 | 5 | Freeplay begins (see [Stage 2](#6-stage-2-freeplay)) | 3 | 30 s |
 
 Before Level 1 begins, a text-only welcome popup explains the basics: planting, waiting for growth, harvesting, and selling at the dock. After that, each unlock pauses the game with a popup that shows the tool's icon, how to use it, and what it does.
@@ -258,13 +258,13 @@ Each pearl type only changes the mature pearl sprite. The growing dummy looks th
 
 | Pearl | Description | Price | Sell XP | Weight | Unlocks |
 |---|---|---|---|---|---|
-| Classic | Inspired by Akoya pearls: cream-white with a soft rose sheen, perfectly round | $200 | 40 | 40 | Level 1 |
-| Blush | Inspired by freshwater pearls: soft pink-lavender tint, slightly uneven (baroque) shape | $300 | 50 | 22 | Level 5 |
-| Tahitian | Dark charcoal base with peacock green and violet overtones, round | $450 | 65 | 15 | Level 7 |
-| Golden South Sea | Warm golden champagne color, large and glossy | $650 | 85 | 10 | Level 9 |
-| Conch | Pink to salmon-orange with a wavy "flame" surface pattern, slightly oval | $900 | 110 | 7 | Level 11 |
-| Melo | Rich orange-brown, extremely glossy, one of the rarest pearls in the real world | $1200 | 140 | 4 | Level 13 |
-| Abalone | Irregular blister-like shape with rainbow blue-green-purple nacre | $1600 | 180 | 2 | Level 15 |
+| Classic | Inspired by Akoya pearls: cream-white with a soft rose sheen, perfectly round | $30 | 40 | 40 | Level 1 |
+| Blush | Inspired by freshwater pearls: soft pink-lavender tint, slightly uneven (baroque) shape | $45 | 50 | 22 | Level 5 |
+| Tahitian | Dark charcoal base with peacock green and violet overtones, round | $65 | 65 | 15 | Level 7 |
+| Golden South Sea | Warm golden champagne color, large and glossy | $95 | 85 | 10 | Level 9 |
+| Conch | Pink to salmon-orange with a wavy "flame" surface pattern, slightly oval | $130 | 110 | 7 | Level 11 |
+| Melo | Rich orange-brown, extremely glossy, one of the rarest pearls in the real world | $175 | 140 | 4 | Level 13 |
+| Abalone | Irregular blister-like shape with rainbow blue-green-purple nacre | $230 | 180 | 2 | Level 15 |
 
 **How the type is rolled**
 
@@ -281,13 +281,14 @@ After Level 15, odd levels only give the upgrade pick.
 
 | Upgrade | Effect per stack | Cap | Base cost | Cost multiplier |
 |---|---|---|---|---|
-| New Clam Slot | Unlocks the next pre-placed clam | 3 stacks (6 clams total) | $600 | 1.8 |
-| Faster Growth | Growth time -2 s | 12 stacks (30 s down to 6 s, never below 5 s) | $300 | 1.35 |
-| Bigger Flare | Flare radius +50 px | 5 stacks (250 to 500 px) | $250 | 1.4 |
-| Crab Tolerance | Crab spawn threshold +0.5 | 6 stacks (4 up to 7 out of 10) | $250 | 1.4 |
+| New Clam Slot | Unlocks the next pre-placed clam | 3 stacks (6 clams total) | $600 | 2.0 |
+| Faster Growth | Growth time -2 s | 12 stacks (30 s down to 6 s, never below 5 s) | $300 | 1.5 |
+| Bigger Sonic Flare | Sonic flare radius +50 px | 5 stacks (250 to 500 px) | $250 | 1.7 |
+| Crab Tolerance | Crab spawn threshold +0.5 (one more chum click before crabs) | 6 stacks (4 up to 7 out of 10) | $250 | 1.6 |
 
-- **Cost scaling:** `cost = base_cost * cost_multiplier ^ (stacks already owned)`. For example, clam slots cost $600, then $1080, then $1944.
-- **Caps** are calculated from the effect values in the code, so changing an effect value moves its cap automatically. The caps keep upgrades from making the game trivial: growth time never drops below 5 seconds, the flare never covers the whole pond, and crabs can always eventually spawn.
+- **Cost scaling:** `cost = base_cost * cost_multiplier ^ (stacks already owned)`. For example, clam slots cost $600, then $1200, then $2400, and the twelfth Faster Growth stack costs about $26,000.
+- **Economy balance:** early in freeplay, one level's worth of pearls (about $290 at Level 5) pays for roughly one cheap upgrade, so the clam slot and later stacks need saving for. Income per level grows with the XP curve (about $1,100 per level at Level 10 and $4,100 at Level 20), while upgrade costs grow faster, so the final stacks of each upgrade are long-term goals. Across the whole game, earnings roughly equal the cost of every upgrade combined.
+- **Caps** are calculated from the effect values in the code, so changing an effect value moves its cap automatically. The caps keep upgrades from making the game trivial: growth time never drops below 5 seconds, the sonic flare never covers the whole pond, and crabs can always eventually spawn.
 - Upgrades are permanent. A later pick, of the same or a different type, never replaces an earlier one.
 - The upgrade list is data-driven, so a new upgrade type only needs a new entry and its effect. More types are planned.
 
@@ -330,7 +331,7 @@ The maximum number of crabs on screen grows by one every three levels after Leve
 | 14 to 16 | 7 |
 | 29 to 30 | 12 |
 
-This keeps crabs a real threat as the player stacks Bigger Flare and Crab Tolerance upgrades.
+This keeps crabs a real threat as the player stacks Bigger Sonic Flare and Crab Tolerance upgrades.
 
 ### 6.7 Max Level
 
@@ -349,7 +350,7 @@ With the current caps there are 3 + 12 + 5 + 6 = 26 upgrade picks. With one pick
 | Top left | Level label and XP bar, money counter |
 | Top right | Chum meter with threshold tick, pause button, shop button |
 | Right side | Chat log (between the shop button and the pearl counter) |
-| Bottom left | Toolbar: Hand, Brush, Chum and Sonar slots, with flare ammo on the Sonar slot |
+| Bottom left | Toolbar: Hand, Brush, Chum and Sonar slots, with sonic flare ammo on the Sonar slot |
 | Bottom right | Pearl counter: one slot per unlocked pearl type |
 | Above each clam | Green growth bar, which turns red during a crab attack |
 
@@ -367,12 +368,12 @@ With the current caps there are 3 + 12 + 5 + 6 = 26 upgrade picks. With one pick
 | Color | Used for | Examples |
 |---|---|---|
 | White | Information | Planting, chum progress, scrubbing |
-| Green | Good news | Harvests, sales, purchases, flare hits, saving |
+| Green | Good news | Harvests, sales, purchases, sonic flare hits, saving |
 | Orange | Warnings | Crab approaching or attacking, no ammo, locked tools |
 | Gold | Big events | Level-ups |
 
 - It always scrolls to the newest message and keeps the last 60.
-- It ignores the mouse, so flares can still be fired over it.
+- It ignores the mouse, so sonic flares can still be fired over it.
 - Messages are kept when a save is loaded.
 - Every message is also printed to Godot's output and log file.
 
@@ -388,15 +389,15 @@ All popups pause the game, and pausing is blocked while a popup chain is open.
 
 ### 7.5 Shop
 
-Opened with the shop button in the top-right corner. It becomes available at Level 4, when flares can first be bought, and pauses the game while open.
+Opened with the shop button in the top-right corner. It becomes available at Level 4, when sonic flares can first be bought, and pauses the game while open.
 
 | Tab | Contents | Visible from |
 |---|---|---|
 | Available | One card per upgrade type with saved picks, showing "xN waiting", the cost and a Buy button | Level 5 |
 | Owned | One card per upgrade type owned, showing the number purchased and the total effect (for example "Growth time -6s total") | Level 5 |
-| Supplies | A sonic flare card showing current ammo, the $30 price and a Buy button | Level 4 |
+| Supplies | A sonic flare card showing current ammo, the $100 price and a Buy button | Level 4 |
 
-Each tab wraps its card row in a margin container, so the cards sit 25 px away from the edges of the tab. The bottom of the shop shows the player's current money. Buy buttons are disabled when the player can't afford the item.
+Each tab wraps its card row in a margin container, so the cards sit 25 px away from the edges of the tab. The player's current money is shown in the top-right corner of the shop, next to a money icon, and updates instantly after every purchase. Buy buttons are disabled when the player can't afford the item.
 
 ### 7.6 Pause Menu and Settings
 
@@ -411,7 +412,7 @@ Each tab wraps its card row in a margin container, so the cards sit 25 px away f
 
 | Toggle | Effect |
 |---|---|
-| Infinite Flares | Flares never run out; the ammo counter shows ∞ |
+| Infinite Sonic Flares | Sonic flares never run out; the ammo counter shows ∞ |
 | Instant Clean | One scrub removes all sediment |
 | Instant Chum | One chum click finishes the pearl |
 
@@ -423,7 +424,7 @@ Settings stay the same after loading a save but are not written to the save file
 
 - **File:** `user://savegame.json`. On Windows this is `%APPDATA%\Godot\app_userdata\ClamIt\savegame.json`.
 - **What is saved:**
-  - Level, XP, money, flare ammo
+  - Level, XP, money, sonic flare ammo
   - Pearls held, by type
   - Owned upgrade stacks and saved-for-later picks
   - Each clam's state, growth progress, sediment level and rolled pearl type
@@ -445,7 +446,7 @@ Settings stay the same after loading a save but are not written to the save file
 | Autoload | Responsibility |
 |---|---|
 | `Global` | Active tool and cursor, tool hotkeys, chum meter, crab spawning, settings toggles |
-| `PlayerProgress` | Level and XP, money, flares, pearl data and rolls, upgrade data and effects, clam unlocks, crab scaling, max level, save and load, welcome popup flag |
+| `PlayerProgress` | Level and XP, money, sonic flares, pearl data and rolls, upgrade data and effects, clam unlocks, crab scaling, max level, save and load, welcome popup flag |
 | `GameLog` | Stores chat log history and sends each new message to the chat log UI |
 
 ### 9.2 Scenes
@@ -466,8 +467,8 @@ Settings stay the same after loading a save but are not written to the save file
 | `game_log.gd` | Chat log messages and their colors |
 | `clam.gd` | Clam states, growth, sediment, tool handling, maturing, crab attacks, whether the clam is a crab target, saving each clam |
 | `crab.gd` | Random target selection, retargeting, attacking and fleeing |
-| `main.gd` | Chum meter bar, XP bar, money label, firing flares |
-| `flare_effect.gd` | Flare animation scaled to the flare radius |
+| `main.gd` | Chum meter bar, XP bar, money label, firing sonic flares |
+| `flare_effect.gd` | Sonic flare animation scaled to the sonic flare radius |
 | `tool_selector.gd` | Toolbar slots, ammo counter, shop button |
 | `pearl_counter.gd` | Pearl counter slots, one per type |
 | `chat_log.gd` | Chat log panel display |
@@ -494,7 +495,7 @@ Settings stay the same after loading a save but are not written to the save file
 
 **Groups:** `clams` and `crabs`, declared as global groups in the project settings.
 
-**Input:** the Hand, Brush and Chum tools act on a clam through that clam's own `input_event`. The Sonar tool fires anywhere through `main.gd`'s `_unhandled_input`. Toolbar and shop buttons use up the click, so pressing a button never fires a flare.
+**Input:** the Hand, Brush and Chum tools act on a clam through that clam's own `input_event`. The Sonar tool fires anywhere through `main.gd`'s `_unhandled_input`. Toolbar and shop buttons use up the click, so pressing a button never fires a sonic flare.
 
 ### 9.5 Key Design Decisions
 
@@ -515,21 +516,21 @@ Settings stay the same after loading a save but are not written to the save file
 | Clams | `sediment_grace_period` | 4.0 s | clam.gd |
 | Clams | Scrub amount | 0.5 | clam.gd |
 | Chum meter | `CHUM_METER_MAX` | 10 | global.gd |
-| Chum meter | `CHUM_PER_USE` | 2 | global.gd |
-| Chum meter | `METER_DECAY_RATE` | 0.2 / s | global.gd |
+| Chum meter | `CHUM_PER_USE` | 0.5 | global.gd |
+| Chum meter | `METER_DECAY_RATE` | 0.08 / s | global.gd |
 | Crabs | `CRAB_SPAWN_THRESHOLD` (base) | 4 | global.gd |
 | Crabs | `SPAWN_INTERVAL_MAX` / `MIN` | 6.0 s / 1.5 s | global.gd |
 | Crabs | `CRAB_ATTACK_DURATION` | 2.0 s | global.gd |
-| Crabs | `SPEED` / `FLEE_SPEED_MULTIPLIER` | 80 px/s / 2x | crab.gd |
+| Crabs | `SPEED` / `FLEE_SPEED_MULTIPLIER` | 100 px/s / 2x | crab.gd |
 | Crabs | `BASE_MAX_CRABS` / `LEVELS_PER_EXTRA_CRAB` | 4 / 3 | player_progress.gd |
 | XP | Plant / Harvest / Chum / Sell Classic | 2 / 3 / 2 / 40 | player_progress.gd |
 | XP | `LEVEL_PEARLS_REQUIRED` | [1, 2, 3, 3] | player_progress.gd |
 | XP | `FREEPLAY_BASE_XP` / `FREEPLAY_STEP` | 300 / 60 | player_progress.gd |
 | Growth | `LEVEL_GROWTH_TIMES` | [2, 10, 10, 30] s | player_progress.gd |
 | Growth | `MIN_GROWTH_TIME` | 5 s | player_progress.gd |
-| Flares | `FLARES_ON_UNLOCK` / `FLARES_PER_LEVEL` | 5 / 1 | player_progress.gd |
-| Flares | `FLARE_PRICE` | $30 | player_progress.gd |
-| Flares | `FLARE_BASE_RADIUS` / `FLARE_MAX_RADIUS` | 250 / 500 px | player_progress.gd |
+| Sonic Flares | `FLARES_ON_UNLOCK` / `FLARES_PER_LEVEL` | 5 / 1 | player_progress.gd |
+| Sonic Flares | `FLARE_PRICE` | $100 | player_progress.gd |
+| Sonic Flares | `FLARE_BASE_RADIUS` / `FLARE_MAX_RADIUS` | 250 / 500 px | player_progress.gd |
 | Upgrades | `GROWTH_SECONDS_PER_STACK` | 2 s | player_progress.gd |
 | Upgrades | `FLARE_RADIUS_PER_STACK` | 50 px | player_progress.gd |
 | Upgrades | `CHUM_THRESHOLD_PER_STACK` / `CHUM_THRESHOLD_MAX` | 0.5 / 7 | player_progress.gd |

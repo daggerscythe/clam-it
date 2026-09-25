@@ -27,7 +27,7 @@ const FREEPLAY_STEP: float = 60.0
 const SONAR_UNLOCK_LEVEL: int = 4
 const FLARES_ON_UNLOCK: int = 5
 const FLARES_PER_LEVEL: int = 1
-const FLARE_PRICE: int = 30
+const FLARE_PRICE: int = 100
 const FLARE_BASE_RADIUS: float = 250.0
 
 # CRAB DIFFICULTY
@@ -39,7 +39,7 @@ enum PearlType { CLASSIC, BLUSH, TAHITIAN, SOUTH_SEA, CONCH, MELO, ABALONE }
 const PEARL_DATA: Dictionary = {
 	PearlType.CLASSIC: {
 		"name": "Classic Pearl", 
-		"price": 200, 
+		"price": 30, 
 		"xp": 40, 
 		"weight": 40, 
 		"unlock_level": 1,
@@ -47,7 +47,7 @@ const PEARL_DATA: Dictionary = {
 	},
 	PearlType.BLUSH: {
 		"name": "Blush Pearl", 
-		"price": 300, 
+		"price": 45, 
 		"xp": 50, 
 		"weight": 22, 
 		"unlock_level": 5,
@@ -55,7 +55,7 @@ const PEARL_DATA: Dictionary = {
 	},
 	PearlType.TAHITIAN: {
 		"name": "Tahitian Pearl", 
-		"price": 450, 
+		"price": 65, 
 		"xp": 65, 
 		"weight": 15, 
 		"unlock_level": 7,
@@ -63,7 +63,7 @@ const PEARL_DATA: Dictionary = {
 	},
 	PearlType.SOUTH_SEA: {
 		"name": "Golden South Sea Pearl", 
-		"price": 650, 
+		"price": 95, 
 		"xp": 85, 
 		"weight": 10, 
 		"unlock_level": 9,
@@ -71,7 +71,7 @@ const PEARL_DATA: Dictionary = {
 	},
 	PearlType.CONCH: {
 		"name": "Conch Pearl", 
-		"price": 900, 
+		"price": 130, 
 		"xp": 110, 
 		"weight": 7, 
 		"unlock_level": 11,
@@ -79,7 +79,7 @@ const PEARL_DATA: Dictionary = {
 	},
 	PearlType.MELO: {
 		"name": "Melo Pearl", 
-		"price": 1200, 
+		"price": 175, 
 		"xp": 140, 
 		"weight": 4, 
 		"unlock_level": 13,
@@ -87,7 +87,7 @@ const PEARL_DATA: Dictionary = {
 	},
 	PearlType.ABALONE: {
 		"name": "Abalone Pearl", 
-		"price": 1600, 
+		"price": 230, 
 		"xp": 180, 
 		"weight": 2, 
 		"unlock_level": 15,
@@ -101,25 +101,25 @@ const UPGRADE_DATA: Dictionary = {
 	UpgradeType.CLAM_SLOT: {
 		"name": "New Clam Slot", 
 		"base_cost": 600, 
-		"cost_multiplier": 1.8,
+		"cost_multiplier": 2.0,
 		"icon": preload("res://assets/sprites/new_clam_slot.png")
 	},
 	UpgradeType.GROWTH_SPEED: {
 		"name": "Faster Growth", 
 		"base_cost": 300, 
-		"cost_multiplier": 1.35,
+		"cost_multiplier": 1.5,
 		"icon": preload("res://assets/sprites/growth_boost.png")
 	},
 	UpgradeType.FLARE_RADIUS: {
 		"name": "Bigger Flare", 
 		"base_cost": 250, 
-		"cost_multiplier": 1.4,
+		"cost_multiplier": 1.7,
 		"icon": preload("res://assets/sprites/increase_sonic_radius.png")
 	},
 	UpgradeType.CHUM_THRESHOLD: {
 		"name": "Crab Tolerance", 
 		"base_cost": 250, 
-		"cost_multiplier": 1.4,
+		"cost_multiplier": 1.6,
 		"icon": preload("res://assets/sprites/chum_threshold_increase.png")
 	},
 }
